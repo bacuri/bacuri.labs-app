@@ -6,11 +6,11 @@ import Login from '../pages/Login';
 const Stack = createStackNavigator();
 
 function SignOutStack() {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} />
-        </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} />
+    </Stack.Navigator>
+  );
 }
 
 export default SignOutStack;
