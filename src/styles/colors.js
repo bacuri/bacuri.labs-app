@@ -1,5 +1,5 @@
 const colors = {
-  background: '#00AFAA',
+  background: '#22292F',
 };
 
 export default colors;
