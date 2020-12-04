@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { Keyboard } from 'react-native';
 import { useFormik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
+import { Container, Input, ErrorMessage } from '../../components/GlobalStyles';
 import {
-  Container,
   Header,
   Logo,
   Edge,
-  Input,
-  ErrorMessage,
   ForgotPassword,
   ForgotPasswordText,
   SignUp,
@@ -20,6 +19,8 @@ import {
 import Button from '../../components/Button';
 
 function Login() {
+  const navigation = useNavigation();
+
   const loginSchema = yup.object({
     email: yup
       .string()
@@ -91,7 +92,7 @@ function Login() {
         onChangeText={handleChange('password')}
         onBlur={handleBlur('password')}
         value={values.password}
-        onSubmitEditting={handleSubmit}
+        onSubmitEditing={handleSubmit}
       />
       {touched.password && errors.password && (
         <ErrorMessage>{errors.password}</ErrorMessage>
@@ -112,7 +113,9 @@ function Login() {
       <SignUp>
         <SignUpText>Ainda não tem cadastro? </SignUpText>
         <SignUpLink>
-          <SignUpLinkText>Crie uma conta agora</SignUpLinkText>
+          <SignUpLinkText onPress={() => navigation.navigate('SignUp')}>
+            Crie uma conta agora
+          </SignUpLinkText>
         </SignUpLink>
       </SignUp>
 
