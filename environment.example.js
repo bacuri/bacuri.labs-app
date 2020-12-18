@@ -3,12 +3,18 @@ import Constants from 'expo-constants';
 const ENV = {
   dev: {
     apiUrl: '',
+    clientId: '',
+    secret: '',
   },
   staging: {
     apiUrl: '',
+    clientId: '',
+    secret: '',
   },
   prod: {
     apiUrl: '',
+    clientId: '',
+    secret: '',
   },
 };
 
