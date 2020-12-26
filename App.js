@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppLoading } from 'expo';
 import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
 
+import { AuthProvider } from './src/contexts/auth';
+
 import Routes from './src/routes';
 
 export default function App() {
@@ -18,7 +20,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar />
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </NavigationContainer>
   );
 }

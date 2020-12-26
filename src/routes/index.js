@@ -1,9 +1,14 @@
 import React from 'react';
 
 import SignOutStack from './SignOutStack';
+import SignInStack from './SignInStack';
+
+import { useAuth } from '../contexts/auth';
 
 function Routes() {
-  return <SignOutStack />;
+  const { signed } = useAuth();
+
+  return !signed ? <SignOutStack /> : <SignInStack />;
 }
 
 export default Routes;

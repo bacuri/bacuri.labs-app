@@ -15,11 +15,13 @@ import {
   SignUpLink,
   SignUpLinkText,
 } from './styles';
-
 import Button from '../../components/Button';
+
+import { useAuth } from '../../contexts/auth';
 
 function Login() {
   const navigation = useNavigation();
+  const { login } = useAuth();
 
   const loginSchema = yup.object({
     email: yup
@@ -37,17 +39,24 @@ function Login() {
   useEffect(() => {
     if (passwordRef) {
       passwordRef.current.setNativeProps({
-        style: { fontFamily: 'roboto-regular' },
+        style: { fontFamily: 'Roboto_400Regular' },
       });
     }
   }, []);
 
-  const handleLogin = (values, actions) => {
+  const handleLogin = async (values, actions) => {
     Keyboard.dismiss();
 
-    alert(JSON.stringify(values));
+    const { email, password } = values;
 
-    actions.setSubmitting(false);
+    try {
+      await login(email, password);
+    } catch (err) {
+      // mostrar msg de erro no formulario
+
+      console.log(err);
+      actions.setSubmitting(false);
+    }
   };
 
   const {
