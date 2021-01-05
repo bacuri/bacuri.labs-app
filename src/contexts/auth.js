@@ -52,8 +52,10 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  function logout() {
+  async function logout() {
     setToken(null);
+
+    await AsyncStorage.removeItem('@BacuriLabs:token');
   }
 
   return (
