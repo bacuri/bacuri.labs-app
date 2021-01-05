@@ -6,11 +6,29 @@ import SignUp from '../pages/SignUp';
 
 const Stack = createStackNavigator();
 
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: '#22292F',
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+};
+
 function SignOutStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ headerTitle: 'Crie sua conta' }}
+      />
     </Stack.Navigator>
   );
 }
