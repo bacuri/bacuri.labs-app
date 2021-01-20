@@ -3,7 +3,8 @@ import { ScrollView } from 'react-native';
 import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
-import { Container, Input, ErrorMessage } from '../../components/GlobalStyles';
+import { Picker } from '@react-native-picker/picker';
+import { Container, ErrorMessage, Select } from '../../components/GlobalStyles';
 import {
   Title,
   TermsAndConditions,
@@ -14,7 +15,10 @@ import {
   GoBackText,
 } from './styles';
 
+import Input from '../../components/Input';
 import Button from '../../components/Button';
+
+import api from '../../services/api';
 
 function SignUp() {
   const navigation = useNavigation();
@@ -35,7 +39,8 @@ function SignUp() {
     confirm_password: yup
       .string()
       .min(6, 'A confirmação de senha deve ter pelo menos 6 caracteres')
-      .required('Confirmação de senha é um campo obrigatório'),
+      .required('Confirmação de senha é um campo obrigatório')
+      .oneOf([yup.ref('password'), null], 'As senhas devem ser iguais'),
   });
 
   const emailRef = useRef();
@@ -56,8 +61,23 @@ function SignUp() {
     }
   }, []);
 
-  const handleSignUp = (values, actions) => {
-    alert(JSON.stringify(values));
+  const handleSignUp = async (values, actions) => {
+    const completeName = values.name.split(' ');
+
+    const data = {
+      platform: 'APP',
+      email: values.email,
+      firstName: completeName[0],
+      lastName: completeName[completeName.length - 1],
+      password: values.password,
+      gender: values.gender,
+    };
+
+    try {
+      await api.post('/register', data);
+    } catch (error) {
+      actions.setFieldError('general', error.message);
+    }
 
     actions.setSubmitting(false);
   };
@@ -66,6 +86,7 @@ function SignUp() {
     handleSubmit,
     handleChange,
     handleBlur,
+    setFieldValue,
     touched,
     errors,
     values,
@@ -103,7 +124,9 @@ function SignUp() {
 
         <Input
           placeholder="E-MAIL"
+          keyboardType="email-address"
           onChangeText={handleChange('email')}
+          autoCapitalize="none"
           value={values.email}
           onBlur={handleBlur('email')}
           ref={emailRef}
@@ -116,6 +139,12 @@ function SignUp() {
         )}
 
         <Input
+          masked
+          type="datetime"
+          options={{
+            format: 'DD/MM/YYYY',
+          }}
+          maxLength={10}
           placeholder="DATA DE NASCIMENTO"
           onChangeText={handleChange('birth_date')}
           value={values.birth_date}
@@ -130,6 +159,9 @@ function SignUp() {
         )}
 
         <Input
+          masked
+          type="cpf"
+          maxLength={14}
           placeholder="CPF"
           onChangeText={handleChange('cpf')}
           value={values.cpf}
@@ -141,16 +173,15 @@ function SignUp() {
         />
         {touched.cpf && errors.cpf && <ErrorMessage>{errors.cpf}</ErrorMessage>}
 
-        <Input
-          placeholder="GÊNERO"
-          onChangeText={handleChange('gender')}
-          value={values.gender}
+        <Select
+          selectedValue={values.gender}
+          onValueChange={itemValue => setFieldValue('gender', itemValue)}
           onBlur={handleBlur('gender')}
-          ref={genderRef}
-          returnKeyType="next"
-          onSubmitEditing={() => passwordRef.current.focus()}
-          blurOnSubmit={false}
-        />
+        >
+          <Picker.Item label="GÊNERO" value="" />
+          <Picker.Item label="MASCULINO" value="MALE" />
+          <Picker.Item label="FEMININO" value="FEMALE" />
+        </Select>
         {touched.gender && errors.gender && (
           <ErrorMessage>{errors.gender}</ErrorMessage>
         )}
@@ -190,6 +221,8 @@ function SignUp() {
             <TermsAndConditionsLinkText>Ver termos</TermsAndConditionsLinkText>
           </TermsAndConditionsLink>
         </TermsAndConditions>
+
+        {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
 
         <Button onPress={handleSubmit} loading={isSubmitting}>
           Criar uma conta agora

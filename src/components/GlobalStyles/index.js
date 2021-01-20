@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Picker } from '@react-native-picker/picker';
 import { colors } from '../../styles';
 
 export const Container = styled.SafeAreaView`
@@ -24,4 +25,14 @@ export const ErrorMessage = styled.Text`
   color: #fff;
   margin-bottom: 10px;
   font-weight: 500;
+`;
+
+export const Select = styled(Picker)`
+  background-color: #f9a61a;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 15px;
+  margin-vertical: 5px;
+  elevation: 3;
 `;
