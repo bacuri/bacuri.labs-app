@@ -14,6 +14,8 @@ import {
 
 import Header from '../../components/Header';
 
+import Bear from '../../assets/icon.svg';
+
 import { useAuth } from '../../contexts/auth';
 import api from '../../services/api';
 
@@ -69,10 +71,15 @@ function ProfileList() {
 
     return (
       <ProfileCard
+        empty={item.empty}
         onPress={() => navigation.navigate(nextScreen, { id: item.id })}
       >
         <ProfileCardImage empty={item.empty} transparent={item.addButton}>
-          {item.addButton && <Plus />}
+          {item.addButton ? (
+            <Plus />
+          ) : (
+            <Bear style={item.empty && { opacity: 0 }} />
+          )}
         </ProfileCardImage>
         <ProfileCardText>
           {!!item.firstName && item.firstName}
