@@ -1,21 +1,12 @@
 import styled from 'styled-components';
-import SvgUri from 'react-native-svg-uri';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../../styles';
-
-import icon from '../../assets/icon.svg';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.background};
   padding: 20px;
 `;
-
-export const Bear = styled(SvgUri).attrs({
-  width: '50',
-  height: '50',
-  source: icon,
-})``;
 
 export const Plus = styled(FontAwesome5).attrs({
   name: 'plus',
@@ -31,9 +22,10 @@ export const Title = styled.Text`
   font-weight: bold;
 `;
 
-export const ProfileCard = styled.TouchableOpacity.attrs({
+export const ProfileCard = styled.TouchableOpacity.attrs(props => ({
   activeOpacity: 0.5,
-})`
+  disabled: props.empty,
+}))`
   flex-grow: 1;
   flex-basis: 0;
   margin: 4px;

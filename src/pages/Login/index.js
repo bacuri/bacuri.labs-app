@@ -6,8 +6,6 @@ import * as yup from 'yup';
 import { Container, Input, ErrorMessage } from '../../components/GlobalStyles';
 import {
   Header,
-  Logo,
-  Edge,
   ForgotPassword,
   ForgotPasswordText,
   SignUp,
@@ -16,6 +14,9 @@ import {
   SignUpLinkText,
 } from './styles';
 import Button from '../../components/Button';
+
+import Logo from '../../assets/logo.svg';
+import Edge from '../../assets/canto.svg';
 
 import { useAuth } from '../../contexts/auth';
 
@@ -79,9 +80,13 @@ function Login() {
 
   return (
     <Container>
-      <Edge />
+      <Edge
+        width="300"
+        height="180"
+        style={{ position: 'absolute', top: 0, right: 0 }}
+      />
       <Header>
-        <Logo />
+        <Logo width="150" height="150" />
       </Header>
       <Input
         placeholder="E-MAIL"
