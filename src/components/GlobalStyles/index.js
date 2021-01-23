@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import { Picker } from '@react-native-picker/picker';
-import { colors } from '../../styles';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  background-color: ${colors.background};
   padding: 20px;
+
+  ${props =>
+    props.center &&
+    `
+    align-Items: center;
+    justify-Content: center;
+  `}
 `;
 
 export const Input = styled.TextInput.attrs({
