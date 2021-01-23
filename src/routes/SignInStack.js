@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProfileList from '../pages/ProfileList';
 import Profile from '../pages/Profile';
 import Dependent from '../pages/Dependent';
+import AddDependent from '../pages/AddDependent';
+import MyVaccines from '../pages/MyVaccines';
 
 const Stack = createStackNavigator();
 
@@ -33,7 +35,17 @@ function SignInStack() {
       <Stack.Screen
         name="Dependent"
         component={Dependent}
-        options={{ headerTitle: 'Adicionar Dependente' }}
+        options={{ headerTitle: 'Dependente' }}
+      />
+      <Stack.Screen
+        name="MyVaccines"
+        component={MyVaccines}
+        options={{ headerTitle: 'Minhas vacinas' }}
+      />
+      <Stack.Screen
+        name="AddDependent"
+        component={AddDependent}
+        options={{ headerTitle: 'Adicionar dependente' }}
       />
     </Stack.Navigator>
   );

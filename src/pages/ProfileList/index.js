@@ -65,10 +65,12 @@ function ProfileList() {
   }
 
   const renderItem = ({ item }) => {
-    const nextScreen = !item.addButton ? 'Profile' : 'Dependent';
+    const nextScreen = !item.addButton ? 'Dependent' : 'AddDependent';
 
     return (
-      <ProfileCard>
+      <ProfileCard
+        onPress={() => navigation.navigate(nextScreen, { id: item.id })}
+      >
         <ProfileCardImage empty={item.empty} transparent={item.addButton}>
           {item.addButton && <Plus />}
         </ProfileCardImage>
