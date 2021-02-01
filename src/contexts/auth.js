@@ -34,22 +34,18 @@ export const AuthProvider = ({ children }) => {
 
     const clientToken = encode(`${clientId}:${secret}`);
 
-    try {
-      const response = await api.post('/oauth/token', data, {
-        headers: {
-          Authorization: `Basic ${clientToken}`,
-        },
-      });
+    const response = await api.post('/oauth/token', data, {
+      headers: {
+        Authorization: `Basic ${clientToken}`,
+      },
+    });
 
-      const { access_token: accessToken } = response.data;
-      setToken(accessToken);
+    const { access_token: accessToken } = response.data;
+    setToken(accessToken);
 
-      api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    api.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
-      await AsyncStorage.setItem('@BacuriLabs:token', accessToken);
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    await AsyncStorage.setItem('@BacuriLabs:token', accessToken);
   }
 
   async function logout() {

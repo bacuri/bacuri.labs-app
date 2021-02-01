@@ -53,9 +53,11 @@ function Login() {
     try {
       await login(email, password);
     } catch (err) {
-      // mostrar msg de erro no formulario
+      const { error } = err.response.data;
 
-      console.log(err);
+      if (error === 'invalid_grant')
+        actions.setFieldError('general', 'Seu e-mail ou senha são inválidos!');
+
       actions.setSubmitting(false);
     }
   };
@@ -88,6 +90,9 @@ function Login() {
       <Header>
         <Logo width="150" height="150" />
       </Header>
+
+      {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
+
       <Input
         placeholder="E-MAIL"
         keyboardType="email-address"
@@ -103,6 +108,7 @@ function Login() {
         placeholder="SENHA"
         secureTextEntry
         ref={passwordRef}
+        autoCapitalize="none"
         onChangeText={handleChange('password')}
         onBlur={handleBlur('password')}
         value={values.password}
@@ -132,8 +138,6 @@ function Login() {
           </SignUpLinkText>
         </SignUpLink>
       </SignUp>
-
-      {/* <SignUpText>ou entre com</SignUpText> */}
     </Container>
   );
 }
