@@ -24,10 +24,8 @@ function AddDependent() {
     gender: yup.string().required('Gênero é um campo obrigatório'),
   });
 
-  const emailRef = useRef();
   const birthDateRef = useRef();
   const cpfRef = useRef();
-  const genderRef = useRef();
 
   const handleSignUp = async (values, actions) => {
     try {
@@ -98,7 +96,7 @@ function AddDependent() {
             onBlur={handleBlur('name')}
             autoCapitalize="words"
             returnKeyType="next"
-            onSubmitEditing={() => emailRef.current.focus()}
+            onSubmitEditing={() => birthDateRef.current.getElement().focus()}
             blurOnSubmit={false}
           />
           {touched.name && errors.name && (
@@ -118,7 +116,7 @@ function AddDependent() {
             onBlur={handleBlur('birth_date')}
             ref={birthDateRef}
             returnKeyType="next"
-            onSubmitEditing={() => cpfRef.current.focus()}
+            onSubmitEditing={() => cpfRef.current.getElement().focus()}
             blurOnSubmit={false}
           />
           {touched.birth_date && errors.birth_date && (
@@ -134,9 +132,6 @@ function AddDependent() {
             value={values.cpf}
             onBlur={handleBlur('cpf')}
             ref={cpfRef}
-            returnKeyType="next"
-            onSubmitEditing={() => genderRef.current.focus()}
-            blurOnSubmit={false}
           />
           {touched.cpf && errors.cpf && (
             <ErrorMessage>{errors.cpf}</ErrorMessage>
