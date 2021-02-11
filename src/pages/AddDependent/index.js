@@ -3,12 +3,13 @@ import { ScrollView, View } from 'react-native';
 import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
-// import { Picker } from '@react-native-picker/picker';
 import { Container, ErrorMessage, Select } from '../../components/GlobalStyles';
 import { Title, GoBack, GoBackText } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+
+import api from '../../services/api';
 
 function AddDependent() {
   const navigation = useNavigation();
@@ -28,9 +29,34 @@ function AddDependent() {
   const cpfRef = useRef();
   const genderRef = useRef();
 
-  const handleSignUp = (values, actions) => {
-    alert(JSON.stringify(values));
+  const handleSignUp = async (values, actions) => {
+    try {
+      const completeName = values.name.split(' ');
 
+      const birthOfDate = `${values.birth_date
+        .split('/')
+        .reverse()
+        .join('-')}T00:00:00.000Z`;
+
+      const cpf = values.cpf.replace(/\D/g, '');
+      const data = {
+        profile: {
+          firstName: completeName[0],
+          lastName: completeName[completeName.length - 1],
+          cic: cpf,
+          dateOfBirth: birthOfDate,
+          gender: values.gender,
+          profile: 'PATIENT',
+          image: 'DEFAULT',
+        },
+      };
+
+      await api.post('/dependent-profile', data);
+
+      navigation.goBack();
+    } catch (error) {
+      actions.setFieldError('general', error.message);
+    }
     actions.setSubmitting(false);
   };
 
@@ -46,12 +72,9 @@ function AddDependent() {
   } = useFormik({
     initialValues: {
       name: '',
-      email: '',
       birth_date: '',
       cpf: '',
       gender: '',
-      password: '',
-      confirm_password: '',
     },
     onSubmit: handleSignUp,
     validationSchema: signUpSchema,
@@ -127,12 +150,14 @@ function AddDependent() {
             dropdownIconColor="#FFFFFF"
           >
             <Select.Item label="GÊNERO" value="" />
-            <Select.Item label="MASCULINO" value="masculino" />
-            <Select.Item label="FEMININO" value="feminino" />
+            <Select.Item label="MASCULINO" value="MALE" />
+            <Select.Item label="FEMININO" value="FEMALE" />
           </Select>
           {touched.gender && errors.gender && (
             <ErrorMessage>{errors.gender}</ErrorMessage>
           )}
+
+          {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
         </View>
 
         <View>
