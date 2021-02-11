@@ -32,7 +32,6 @@ export const ProfileCard = styled.TouchableOpacity.attrs(props => ({
 `;
 
 export const ProfileCardImage = styled.View`
-  flex: 1;
   aspect-ratio: 1;
   background-color: ${props =>
     props.empty || props.transparent ? 'transparent' : '#f2f2f2'};
