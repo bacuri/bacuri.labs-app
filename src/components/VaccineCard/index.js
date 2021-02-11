@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+
+import {
+  FontAwesome5,
+  MaterialIcons,
+  Foundation,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 
 import {
   Card,
@@ -8,7 +13,7 @@ import {
   CardHeader,
   CardDescription,
   Badge,
-  BadgeText,
+  CollapseButton,
 } from './styles';
 
 const dosageLabel = {
@@ -23,7 +28,8 @@ const dosageLabel = {
 };
 
 function VaccineCard({ item }) {
-  // const route = useRoute();
+  const [collapse, setCollapse] = useState(false);
+  // const open = false;
 
   const {
     name,
@@ -32,6 +38,7 @@ function VaccineCard({ item }) {
     finalRange,
     observation,
     dosage,
+    range,
   } = item.vaccine;
 
   const vaccineApplicationAge = (initialRange, finalRange) => {
@@ -68,9 +75,21 @@ function VaccineCard({ item }) {
     <Card>
       <CardHeader>
         <CardTitle>{name}</CardTitle>
+
+        {/* <Badge color="#f4c2c2">
+          <Foundation name="female-symbol" color="white" size={16} />
+        </Badge> */}
+        {range === 'INFANT' && (
+          <Badge color="#feff51">
+            <MaterialIcons name="child-friendly" color="white" size={16} />
+          </Badge>
+        )}
+        {/* <Badge color="#f8e5b7">
+          <MaterialIcons name="elderly" color="white" size={16} />
+        </Badge> */}
         {item.applied && (
           <Badge>
-            <BadgeText>Aplicado</BadgeText>
+            <FontAwesome5 name="check" color="white" size={16} />
           </Badge>
         )}
       </CardHeader>
@@ -82,7 +101,18 @@ function VaccineCard({ item }) {
       </CardDescription>
       <CardDescription>{`Dose: ${dosageLabel[dosage]}`}</CardDescription>
       {!!observation && (
-        <CardDescription>{`Observação: ${observation}`}</CardDescription>
+        <>
+          {collapse && (
+            <CardDescription>{`Observação: ${observation}`}</CardDescription>
+          )}
+          <CollapseButton onPress={() => setCollapse(prevOpen => !prevOpen)}>
+            <MaterialCommunityIcons
+              name={!collapse ? 'chevron-double-down' : 'chevron-double-up'}
+              color="white"
+              size={24}
+            />
+          </CollapseButton>
+        </>
       )}
     </Card>
   );

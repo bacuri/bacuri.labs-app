@@ -51,7 +51,7 @@ function MyVaccines() {
     <VaccineList
       data={vaccineList}
       keyExtractor={(item, index) => index}
-      renderItem={VaccineCard}
+      renderItem={({ item }) => <VaccineCard item={item} />}
     />
   );
 }
