@@ -87,7 +87,12 @@ function ProfileList() {
     return (
       <ProfileCard
         empty={item.empty}
-        onPress={() => navigation.navigate(nextScreen, { id: item.id })}
+        onPress={() =>
+          navigation.navigate(nextScreen, {
+            id: item.id,
+            name: `${item.firstName} ${item.lastName}`,
+          })
+        }
       >
         <ProfileCardImage empty={item.empty} transparent={item.addButton}>
           {item.addButton ? (

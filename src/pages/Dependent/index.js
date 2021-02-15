@@ -1,9 +1,8 @@
-import React from 'react';
-import { ScrollView } from 'react-native';
+import React, { useLayoutEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FontAwesome5 as Icon } from '@expo/vector-icons';
 
-import { Header, Title, Card, CardTitle, Footer } from './styles';
+import { Header, Title, Card, CardTitle, Footer, ScrollView } from './styles';
 
 import { Container } from '../../components/GlobalStyles';
 
@@ -11,16 +10,21 @@ function Dependent() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const { id } = route.params;
+  const { id, name } = route.params;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: name });
+  }, [navigation, route]);
 
   return (
-    <Container>
-      <Header />
+    <>
+      {/* <Container>
+        <Header />
+      </Container> */}
 
       <Footer>
         <Title>Ações</Title>
-
-        <ScrollView horizontal>
+        <ScrollView>
           <Card onPress={() => navigation.navigate('ApplyVaccine', { id })}>
             <Icon name="syringe" color="#fff" size={16} />
             <CardTitle>Registrar vacina</CardTitle>
@@ -37,7 +41,7 @@ function Dependent() {
           </Card>
         </ScrollView>
       </Footer>
-    </Container>
+    </>
   );
 }
 
