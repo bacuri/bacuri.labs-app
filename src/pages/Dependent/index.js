@@ -30,6 +30,11 @@ function Dependent() {
             <Icon name="notes-medical" color="#fff" size={16} />
             <CardTitle>Minhas Vacinas</CardTitle>
           </Card>
+
+          <Card onPress={() => navigation.navigate('Campaigns')}>
+            <Icon name="marker" color="#fff" size={16} />
+            <CardTitle>Campanhas de vacinação</CardTitle>
+          </Card>
         </ScrollView>
       </Footer>
     </Container>
