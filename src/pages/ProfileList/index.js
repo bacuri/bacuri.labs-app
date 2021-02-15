@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  FlatList,
+  ActivityIndicator,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+
 import { Container } from '../../components/GlobalStyles';
 import {
   Logout,
@@ -21,10 +28,12 @@ import api from '../../services/api';
 
 function ProfileList() {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const { logout } = useAuth();
 
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -32,24 +41,30 @@ function ProfileList() {
         const response = await api.get('/user');
 
         const { data } = response;
-        const { dependentProfiles, ...user } = data.content;
+        const { dependentProfiles } = data.content;
 
-        const me = {
-          ...user,
-          firstName: 'Eu',
-          lastName: '',
-        };
-
-        setProfiles([me, ...dependentProfiles]);
+        setProfiles(dependentProfiles);
+        setError(false);
       } catch (err) {
-        console.log(err);
+        setError(true);
       } finally {
         setLoading(false);
       }
     };
 
     getUserInfo();
-  }, []);
+  }, [isFocused]);
+
+  const ErrorPage = () => (
+    <View>
+      <Text>Ocorreu um erro ao carregar a lista de dependentes</Text>
+
+      <Text>Tente novamente</Text>
+      <TouchableOpacity>
+        <Text>Recarregar lista</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   function createRows(data, columns) {
     const rows = Math.floor(data.length / columns);
@@ -97,20 +112,30 @@ function ProfileList() {
 
   const columns = 3;
 
+  if (loading)
+    return (
+      <Container center>
+        <ActivityIndicator size="large" color="#fff" />
+      </Container>
+    );
+
   return (
     <Container>
       <Header rightSide={RightSideComponent} />
-      <Title>Selecione seu perfil</Title>
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#fff" />
+      {error ? (
+        <ErrorPage />
       ) : (
-        <FlatList
-          data={createRows([...profiles, { addButton: true }], columns)}
-          keyExtractor={item => item.id}
-          renderItem={renderItem}
-          numColumns={columns}
-        />
+        <>
+          <Title>Selecione seu perfil</Title>
+
+          <FlatList
+            data={createRows([...profiles, { addButton: true }], columns)}
+            keyExtractor={item => item.id}
+            renderItem={renderItem}
+            numColumns={columns}
+          />
+        </>
       )}
     </Container>
   );
