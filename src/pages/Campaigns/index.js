@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import api from '../../services/api';
@@ -18,6 +18,7 @@ const Campaigns = () => {
   const { id } = route.params;
 
   const [campaignsList, setCampaignsList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getCampaigns = async () => {
@@ -29,11 +30,21 @@ const Campaigns = () => {
         setCampaignsList(response.data.content);
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     getCampaigns();
   }, []);
+
+  if (loading) {
+    return (
+      <Container center>
+        <ActivityIndicator size="large" color="#fff" />
+      </Container>
+    );
+  }
 
   return (
     <Container>
