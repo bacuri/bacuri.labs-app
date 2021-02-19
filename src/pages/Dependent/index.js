@@ -35,7 +35,7 @@ function Dependent() {
             <CardTitle>Minhas Vacinas</CardTitle>
           </Card>
 
-          <Card onPress={() => navigation.navigate('Campaigns')}>
+          <Card onPress={() => navigation.navigate('Campaigns', { id })}>
             <Icon name="marker" color="#fff" size={16} />
             <CardTitle>Campanhas de vacinação</CardTitle>
           </Card>

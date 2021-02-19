@@ -1,35 +1,61 @@
 import React from 'react';
-import { useRoute } from '@react-navigation/native';
+import { Image, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Container } from '../../components/GlobalStyles';
-import { Title, Description, NumberCard, Number, Text } from './styles';
+import Button from '../../components/Button';
+import {
+  Header,
+  HeaderText,
+  Title,
+  Description,
+  TitleSecondary,
+  NumberCard,
+  Number,
+  Text,
+} from './styles';
 
 function CampaignDetail() {
+  const navigation = useNavigation();
   const route = useRoute();
 
-  const { name, description, amount, applied } = route.params;
-  const remainingVaccines = amount - applied;
+  const { title, description, image, places } = route.params;
+
+  const remainingVaccines = () => {
+    const totalVaccines = places.reduce((acc, el) => (acc += el.amount), 0);
+
+    const totalApplied = places.reduce((acc, el) => (acc += el.applied), 0);
+
+    return totalVaccines - totalApplied;
+  };
 
   return (
-    <Container>
-      <Title>{name}</Title>
+    <Container spaceBetween>
+      <View>
+        <Header>
+          <Image
+            source={{ uri: image }}
+            style={{ flex: 1, aspectRatio: 1, marginRight: 10 }}
+          />
 
-      <Description>{description}</Description>
+          <HeaderText>
+            <Title>{title}</Title>
 
-      <Description>Endereço: Avenida 31 de março, 50</Description>
+            <Description>{description}</Description>
+          </HeaderText>
+        </Header>
 
-      <NumberCard>
-        <Number>{amount}</Number>
-        <Text>Total de vacinas</Text>
-      </NumberCard>
-      <NumberCard>
-        <Number>{applied}</Number>
-        <Text>Vacinas aplicadas</Text>
-      </NumberCard>
-      <NumberCard>
-        <Number>{remainingVaccines}</Number>
-        <Text>Vacinas restantes</Text>
-      </NumberCard>
+        <TitleSecondary>Informações gerais</TitleSecondary>
+
+        <NumberCard>
+          <Number>{remainingVaccines()}</Number>
+          <Text>Vacinas restantes</Text>
+        </NumberCard>
+      </View>
+
+      <Button onPress={() => navigation.navigate('CampaignMap', { places })}>
+        Ver locais disponíveis
+      </Button>
     </Container>
   );
 }

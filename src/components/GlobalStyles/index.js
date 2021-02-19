@@ -11,6 +11,12 @@ export const Container = styled.SafeAreaView`
     align-Items: center;
     justify-Content: center;
   `}
+
+  ${props =>
+    props.spaceBetween &&
+    `
+    justify-Content: space-between;
+  `}
 `;
 
 export const Input = styled.TextInput.attrs({

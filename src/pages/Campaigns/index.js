@@ -1,78 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
+import { View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import api from '../../services/api';
 
-import { Map } from './styles';
+import { Container } from '../../components/GlobalStyles';
+import {
+  CampaignCard,
+  CampaignCardTitle,
+  CampaignCardDescription,
+} from './styles';
 
 const Campaigns = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
-  const [points, setPoints] = useState([
-    {
-      id: 1,
-      name: 'Coronavirus',
-      description: 'Campanha de vacinação contra o coronavirus',
-      amount: 1000,
-      applied: 100,
-      latitude: -3.7619033,
-      longitude: -49.6769428,
-    },
-  ]);
+  const { id } = route.params;
 
-  const [initialPosition, setInitialPosition] = useState([0, 0]);
+  const [campaignsList, setCampaignsList] = useState([]);
 
   useEffect(() => {
-    async function loadPosition() {
-      const { status } = await Location.requestPermissionsAsync();
-
-      if (status !== 'granted') {
-        Alert.alert(
-          'Ops',
-          'Precisamos de sua permissão para obter a localização',
+    const getCampaigns = async () => {
+      try {
+        const response = await api.get(
+          `/campaign/my-campaigns?profileId=${id}`,
         );
-        return;
+
+        setCampaignsList(response.data.content);
+      } catch (err) {
+        console.log(err);
       }
+    };
 
-      const location = await Location.getCurrentPositionAsync();
-
-      const { latitude, longitude } = location.coords;
-
-      setInitialPosition([latitude, longitude]);
-    }
-
-    loadPosition();
+    getCampaigns();
   }, []);
 
-  function handleNavigateToDetail(point) {
-    navigation.navigate('CampaignDetail', { ...point });
-  }
-
   return (
-    initialPosition[0] !== 0 && (
-      <Map
-        initialRegion={{
-          latitude: initialPosition[0],
-          longitude: initialPosition[1],
-          latitudeDelta: 0.014,
-          longitudeDelta: 0.014,
-        }}
-      >
-        {points.map(point => (
-          <Marker
-            key={String(point.id)}
-            onPress={() => handleNavigateToDetail(point)}
-            coordinate={{
-              latitude: point.latitude,
-              longitude: point.longitude,
-            }}
-            title={point.name}
-          />
-        ))}
-      </Map>
-    )
+    <Container>
+      {campaignsList.map(campaign => (
+        <CampaignCard
+          key={String(campaign.id)}
+          onPress={() => navigation.navigate('CampaignDetail', { ...campaign })}
+        >
+          <View>
+            <CampaignCardTitle>{campaign.title}</CampaignCardTitle>
+            <CampaignCardDescription>
+              {campaign.description}
+            </CampaignCardDescription>
+          </View>
+          <FontAwesome5 name="arrow-right" color="#f2f2f2" size={17} />
+        </CampaignCard>
+      ))}
+    </Container>
   );
 };
 

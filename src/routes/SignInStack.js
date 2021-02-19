@@ -8,6 +8,7 @@ import MyVaccines from '../pages/MyVaccines';
 import ApplyVaccine from '../pages/ApplyVaccine';
 import Campaigns from '../pages/Campaigns';
 import CampaignDetail from '../pages/CampaignDetail';
+import CampaignMap from '../pages/CampaignMap';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,11 @@ function SignInStack() {
         name="CampaignDetail"
         component={CampaignDetail}
         options={{ headerTitle: 'Detalhe da campanha' }}
+      />
+      <Stack.Screen
+        name="CampaignMap"
+        component={CampaignMap}
+        options={{ headerTitle: 'Postos disponíveis' }}
       />
     </Stack.Navigator>
   );
