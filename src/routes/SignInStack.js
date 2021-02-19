@@ -5,6 +5,7 @@ import ProfileList from '../pages/ProfileList';
 import Dependent from '../pages/Dependent';
 import AddDependent from '../pages/AddDependent';
 import MyVaccines from '../pages/MyVaccines';
+import ApplyVaccine from '../pages/ApplyVaccine';
 import Campaigns from '../pages/Campaigns';
 import CampaignDetail from '../pages/CampaignDetail';
 
@@ -42,6 +43,11 @@ function SignInStack() {
         name="AddDependent"
         component={AddDependent}
         options={{ headerTitle: 'Adicionar dependente' }}
+      />
+      <Stack.Screen
+        name="ApplyVaccine"
+        component={ApplyVaccine}
+        options={{ headerTitle: 'Aplicar vacina' }}
       />
       <Stack.Screen
         name="Campaigns"
