@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
   FontAwesome5,
   MaterialIcons,
@@ -14,6 +13,10 @@ import {
   CardDescription,
   Badge,
   CollapseButton,
+  CardDetails,
+  Main,
+  Details,
+  Ball,
 } from './styles';
 
 const dosageLabel = {
@@ -29,7 +32,7 @@ const dosageLabel = {
 
 function VaccineCard({ item }) {
   const [collapse, setCollapse] = useState(false);
-  // const open = false;
+  const [numberDoses, setNumberDoses] = useState({});
 
   const {
     name,
@@ -39,7 +42,29 @@ function VaccineCard({ item }) {
     observation,
     dosage,
     range,
+    requirement,
+    nextVaccine,
   } = item.vaccine;
+
+  useEffect(() => {
+    const getNextVaccines = vaccine => {
+      let nextVaccine = vaccine;
+
+      let numberVaccines = 0;
+      let numberAppliedVaccines = 0;
+
+      while (nextVaccine) {
+        numberVaccines += 1;
+        numberAppliedVaccines += nextVaccine.applied ? 1 : 0;
+
+        nextVaccine = nextVaccine.nextVaccine;
+      }
+
+      return { numberVaccines, numberAppliedVaccines };
+    };
+
+    setNumberDoses(getNextVaccines(nextVaccine));
+  }, []);
 
   const vaccineApplicationAge = (initialRange, finalRange) => {
     let initialText = '';
@@ -76,30 +101,47 @@ function VaccineCard({ item }) {
       <CardHeader>
         <CardTitle>{name}</CardTitle>
 
-        {/* <Badge color="#f4c2c2">
-          <Foundation name="female-symbol" color="white" size={16} />
-        </Badge> */}
+        {requirement === 'GIRL' && (
+          <Badge color="#f4c2c2">
+            <Foundation name="female-symbol" color="white" size={16} />
+          </Badge>
+        )}
+        {requirement === 'BOY' && (
+          <Badge color="#89cff0">
+            <Foundation name="male-symbol" color="white" size={16} />
+          </Badge>
+        )}
         {range === 'INFANT' && (
           <Badge color="#feff51">
             <MaterialIcons name="child-friendly" color="white" size={16} />
           </Badge>
         )}
-        {/* <Badge color="#f8e5b7">
-          <MaterialIcons name="elderly" color="white" size={16} />
-        </Badge> */}
         {item.applied && (
           <Badge>
             <FontAwesome5 name="check" color="white" size={16} />
           </Badge>
         )}
       </CardHeader>
-      <CardDescription>
-        {`Doenças prevenidas: ${preventedDiseases}`}
-      </CardDescription>
-      <CardDescription>
-        {`Idade de aplicação: ${applicationRange}`}
-      </CardDescription>
-      <CardDescription>{`Dose: ${dosageLabel[dosage]}`}</CardDescription>
+
+      <CardDetails>
+        <Main>
+          <CardDescription>
+            {`Doenças prevenidas: ${preventedDiseases}`}
+          </CardDescription>
+          <CardDescription>
+            {`Idade de aplicação: ${applicationRange}`}
+          </CardDescription>
+          <CardDescription>{`Dose: ${dosageLabel[dosage]}`}</CardDescription>
+        </Main>
+        <Details>
+          {[...Array(numberDoses.numberVaccines)].map((e, index) => (
+            <Ball
+              key={String(index)}
+              color={numberDoses.numberAppliedVaccines > index + 1}
+            />
+          ))}
+        </Details>
+      </CardDetails>
       {!!observation && (
         <>
           {collapse && (

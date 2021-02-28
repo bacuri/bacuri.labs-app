@@ -40,3 +40,28 @@ export const CardDescription = styled.Text`
 export const CollapseButton = styled.TouchableOpacity`
   align-self: center;
 `;
+
+export const CardDetails = styled.View`
+  flex-direction: row;
+`;
+
+export const Main = styled.View`
+  flex: 3;
+`;
+
+export const Details = styled.View`
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+`;
+
+export const Ball = styled.View`
+  width: 20px;
+  height: 20px;
+  background: ${props => (props.color ? 'green' : '#a83f39')};
+  border-radius: 5px;
+  margin-left: 3px;
+  margin-bottom: 3px;
+`;
