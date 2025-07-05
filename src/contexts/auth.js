@@ -27,10 +27,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   async function login(email, password) {
-    const data = new FormData();
-    data.append('grant_type', 'password');
-    data.append('username', email);
-    data.append('password', password);
+    const data = {
+      grant_type: 'password',
+      username: email,
+      password,
+    };
 
     const clientToken = encode(`${clientId}:${secret}`);
 

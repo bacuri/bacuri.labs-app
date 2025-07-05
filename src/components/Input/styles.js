@@ -13,13 +13,13 @@ const input = css`
 `;
 
 export const InputNormal = styled(TextInput).attrs({
-  placeholderTextColor: '#fff',
+  placeholderTextColor: '#4A4A4A',
 })`
   ${input}
 `;
 
 export const InputMask = styled(TextInputMask).attrs({
-  placeholderTextColor: '#fff',
+  placeholderTextColor: '#4A4A4A',
 })`
   ${input}
 `;

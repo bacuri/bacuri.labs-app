@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
 import { Picker } from '@react-native-picker/picker';
-import { ErrorMessage, Select } from '../../components/GlobalStyles';
+import { ErrorMessage, Label, Select } from '../../components/GlobalStyles';
 import {
   Title,
   TermsAndConditions,
@@ -113,7 +113,7 @@ function SignUp() {
       email: '',
       birth_date: '',
       cpf: '',
-      gender: '',
+      gender: 'MALE',
       password: '',
       confirm_password: '',
     },
@@ -127,8 +127,10 @@ function SignUp() {
       contentContainerStyle={{ flexGrow: 1, padding: 20 }}
     >
       <Title>Olá, precisamos de suas informações para criar sua conta.</Title>
+
+      <Label>Nome</Label>
       <Input
-        placeholder="NOME"
+        placeholder="Digite seu nome"
         onChangeText={handleChange('name')}
         value={values.name}
         onBlur={handleBlur('name')}
@@ -140,8 +142,9 @@ function SignUp() {
         <ErrorMessage>{errors.name}</ErrorMessage>
       )}
 
+      <Label>E-mail</Label>
       <Input
-        placeholder="E-MAIL"
+        placeholder="Digite seu e-mail"
         keyboardType="email-address"
         onChangeText={handleChange('email')}
         autoCapitalize="none"
@@ -156,6 +159,7 @@ function SignUp() {
         <ErrorMessage>{errors.email}</ErrorMessage>
       )}
 
+      <Label>Data de nascimento</Label>
       <Input
         masked
         type="datetime"
@@ -163,7 +167,7 @@ function SignUp() {
           format: 'DD/MM/YYYY',
         }}
         maxLength={10}
-        placeholder="DATA DE NASCIMENTO"
+        placeholder="DD/MM/YYYY"
         onChangeText={handleChange('birth_date')}
         value={values.birth_date}
         onBlur={handleBlur('birth_date')}
@@ -176,11 +180,12 @@ function SignUp() {
         <ErrorMessage>{errors.birth_date}</ErrorMessage>
       )}
 
+      <Label>CPF</Label>
       <Input
         masked
         type="cpf"
         maxLength={14}
-        placeholder="CPF"
+        placeholder="Digite seu CPF"
         onChangeText={handleChange('cpf')}
         value={values.cpf}
         onBlur={handleBlur('cpf')}
@@ -191,12 +196,12 @@ function SignUp() {
       />
       {touched.cpf && errors.cpf && <ErrorMessage>{errors.cpf}</ErrorMessage>}
 
+      <Label>Gênero</Label>
       <Select
         selectedValue={values.gender}
         onValueChange={itemValue => setFieldValue('gender', itemValue)}
         onBlur={handleBlur('gender')}
       >
-        <Picker.Item label="GÊNERO" value="" />
         <Picker.Item label="MASCULINO" value="MALE" />
         <Picker.Item label="FEMININO" value="FEMALE" />
       </Select>
@@ -204,8 +209,9 @@ function SignUp() {
         <ErrorMessage>{errors.gender}</ErrorMessage>
       )}
 
+      <Label>Senha</Label>
       <Input
-        placeholder="SENHA"
+        placeholder="Digite sua senha"
         secureTextEntry
         onChangeText={handleChange('password')}
         value={values.password}
@@ -219,8 +225,9 @@ function SignUp() {
         <ErrorMessage>{errors.password}</ErrorMessage>
       )}
 
+      <Label>Confirmar senha</Label>
       <Input
-        placeholder="CONFIRMAR SENHA"
+        placeholder="Repite a senha"
         secureTextEntry
         onChangeText={handleChange('confirm_password')}
         value={values.confirm_password}

@@ -3,7 +3,12 @@ import { ScrollView, View } from 'react-native';
 import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
-import { Container, ErrorMessage, Select } from '../../components/GlobalStyles';
+import {
+  Container,
+  ErrorMessage,
+  Label,
+  Select,
+} from '../../components/GlobalStyles';
 import { Title, GoBack, GoBackText } from './styles';
 
 import Input from '../../components/Input';
@@ -72,7 +77,7 @@ function AddDependent() {
       name: '',
       birth_date: '',
       cpf: '',
-      gender: '',
+      gender: 'MALE',
     },
     onSubmit: handleSignUp,
     validationSchema: signUpSchema,
@@ -89,8 +94,9 @@ function AddDependent() {
             Olá, precisamos de algumas informações para cadastrar um dependente.
           </Title>
 
+          <Label>Nome</Label>
           <Input
-            placeholder="NOME"
+            placeholder="Digite seu nome"
             onChangeText={handleChange('name')}
             value={values.name}
             onBlur={handleBlur('name')}
@@ -103,14 +109,16 @@ function AddDependent() {
             <ErrorMessage>{errors.name}</ErrorMessage>
           )}
 
+          <Label>Data de nascimento</Label>
           <Input
             masked
             type="datetime"
             options={{
               format: 'DD/MM/YYYY',
             }}
+            textContentType="birthdate"
             maxLength={10}
-            placeholder="DATA DE NASCIMENTO"
+            placeholder="DD/MM/YYYY"
             onChangeText={handleChange('birth_date')}
             value={values.birth_date}
             onBlur={handleBlur('birth_date')}
@@ -123,11 +131,12 @@ function AddDependent() {
             <ErrorMessage>{errors.birth_date}</ErrorMessage>
           )}
 
+          <Label>CPF</Label>
           <Input
             masked
             type="cpf"
             maxLength={14}
-            placeholder="CPF"
+            placeholder="Digite seu CPF"
             onChangeText={handleChange('cpf')}
             value={values.cpf}
             onBlur={handleBlur('cpf')}
@@ -137,6 +146,7 @@ function AddDependent() {
             <ErrorMessage>{errors.cpf}</ErrorMessage>
           )}
 
+          <Label>Gênero</Label>
           <Select
             mode="dropdown"
             selectedValue={values.gender}
@@ -144,7 +154,6 @@ function AddDependent() {
             onBlur={handleBlur('gender')}
             dropdownIconColor="#FFFFFF"
           >
-            <Select.Item label="GÊNERO" value="" />
             <Select.Item label="MASCULINO" value="MALE" />
             <Select.Item label="FEMININO" value="FEMALE" />
           </Select>

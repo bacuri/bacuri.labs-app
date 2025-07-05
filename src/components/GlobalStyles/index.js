@@ -31,10 +31,17 @@ export const Input = styled.TextInput.attrs({
   elevation: 3;
 `;
 
+export const Label = styled.Text`
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 10px;
+`;
+
 export const ErrorMessage = styled.Text`
   font-size: 15px;
-  color: #fff;
-  margin-bottom: 10px;
+  color: #ff2c2c;
   font-weight: 500;
 `;
 

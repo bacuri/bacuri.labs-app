@@ -28,7 +28,7 @@ function SignInStack() {
       <Stack.Screen
         name="ProfileList"
         component={ProfileList}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, headerTitle: 'Lista de perfis' }}
       />
       <Stack.Screen
         name="Dependent"

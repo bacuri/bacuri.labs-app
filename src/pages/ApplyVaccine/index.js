@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { Alert, Button, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+// import { BarCodeScanner } from 'expo-camera';
 import { decode } from 'base-64';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Layer, LayerCenter, Focused, Title } from './styles';
 
 import api from '../../services/api';
@@ -13,20 +14,17 @@ function ApplyVaccine() {
 
   const { id } = route.params;
 
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
+  const qrLock = useRef(false);
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+  const handleBarCodeScanned = async ({ data }) => {
+    if (!data || qrLock.current) {
+      return;
+    }
 
-  const handleBarCodeScanned = async ({ type, data }) => {
+    qrLock.current = true;
+
     try {
-      setScanned(true);
-
       const decodedData = decode(data);
 
       await api.post(
@@ -35,22 +33,36 @@ function ApplyVaccine() {
       );
 
       Alert.alert(`Sucesso!`, `Vacina aplicada com sucesso`);
-      navigation.goBack();
     } catch (err) {
       Alert.alert(
         'Ops!',
         'Ocorreu um erro ao aplicar a vacina, tente novamente!',
       );
+    } finally {
+      navigation.goBack();
     }
   };
 
-  if (!hasPermission) {
-    return <Title>Você não tem permissão da câmera</Title>;
+  if (!permission) {
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    return (
+      <View>
+        <Title>We need your permission to show the camera</Title>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
   }
 
   return (
-    <BarCodeScanner
-      onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+    <CameraView
+      facing="back"
+      barcodeScannerSettings={{
+        barcodeTypes: ['qr'],
+      }}
+      onBarcodeScanned={handleBarCodeScanned}
       style={StyleSheet.absoluteFill}
     >
       <Layer />
@@ -60,7 +72,7 @@ function ApplyVaccine() {
         <Layer />
       </LayerCenter>
       <Layer />
-    </BarCodeScanner>
+    </CameraView>
   );
 }
 
