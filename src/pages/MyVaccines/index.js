@@ -6,7 +6,7 @@ import { VaccineList, Error, Loading } from './styles';
 import { Container } from '../../components/GlobalStyles';
 import VaccineCard from '../../components/VaccineCard';
 
-import api from '../../services/api';
+import httpClient from '../../lib/httpClient';
 
 function MyVaccines() {
   const route = useRoute();
@@ -20,7 +20,9 @@ function MyVaccines() {
   useEffect(() => {
     const getVaccines = async () => {
       try {
-        const response = await api.get(`vaccine/timeline?profileId=${id}`);
+        const response = await httpClient.get(
+          `vaccine/timeline?profileId=${id}`,
+        );
 
         setVaccineList(response.data.content);
       } catch (err) {

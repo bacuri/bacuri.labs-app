@@ -14,7 +14,7 @@ import { Title, GoBack, GoBackText } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import api from '../../services/api';
+import httpClient from '../../lib/httpClient';
 
 function AddDependent() {
   const navigation = useNavigation();
@@ -54,7 +54,7 @@ function AddDependent() {
         },
       };
 
-      await api.post('/dependent-profile', data);
+      await httpClient.post('/dependent-profile', data);
 
       navigation.goBack();
     } catch (error) {

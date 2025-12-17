@@ -6,7 +6,7 @@ import { decode } from 'base-64';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Layer, LayerCenter, Focused, Title } from './styles';
 
-import api from '../../services/api';
+import httpClient from '../../lib/httpClient';
 
 function ApplyVaccine() {
   const navigation = useNavigation();
@@ -27,7 +27,7 @@ function ApplyVaccine() {
     try {
       const decodedData = decode(data);
 
-      await api.post(
+      await httpClient.post(
         `/vaccine/apply?profileId=${id}&${decodedData}`,
         decodedData,
       );

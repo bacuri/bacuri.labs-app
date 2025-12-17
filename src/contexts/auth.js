@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { encode } from 'base-64';
 import getEnvVars from '../../environment';
 
-import api from '../services/api';
+import httpClient from '../lib/httpClient';
 
 const { clientId, secret } = getEnvVars();
 
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       if (storagedToken) {
         setToken(storagedToken);
 
-        api.defaults.headers.Authorization = `Bearer ${storagedToken}`;
+        httpClient.defaults.headers.Authorization = `Bearer ${storagedToken}`;
       }
     }
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     const clientToken = encode(`${clientId}:${secret}`);
 
-    const response = await api.post('/oauth/token', data, {
+    const response = await httpClient.post('/oauth/token', data, {
       headers: {
         Authorization: `Basic ${clientToken}`,
       },
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     const { access_token: accessToken } = response.data;
     setToken(accessToken);
 
-    api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    httpClient.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     await AsyncStorage.setItem('@BacuriLabs:token', accessToken);
   }
