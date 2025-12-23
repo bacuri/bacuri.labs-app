@@ -1,11 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { encode } from 'base-64';
-import getEnvVars from '../../environment';
 
-import api from '../services/api';
-
-const { clientId, secret } = getEnvVars();
+import httpClient from '../lib/httpClient';
+import { login as authLogin } from '../services/authService';
 
 const AuthContext = createContext({});
 
@@ -19,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       if (storagedToken) {
         setToken(storagedToken);
 
-        api.defaults.headers.Authorization = `Bearer ${storagedToken}`;
+        httpClient.defaults.headers.Authorization = `Bearer ${storagedToken}`;
       }
     }
 
@@ -27,24 +24,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   async function login(email, password) {
-    const data = {
-      grant_type: 'password',
-      username: email,
-      password,
-    };
-
-    const clientToken = encode(`${clientId}:${secret}`);
-
-    const response = await api.post('/oauth/token', data, {
-      headers: {
-        Authorization: `Basic ${clientToken}`,
-      },
-    });
-
-    const { access_token: accessToken } = response.data;
+    const accessToken = await authLogin(email, password);
     setToken(accessToken);
 
-    api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    httpClient.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     await AsyncStorage.setItem('@BacuriLabs:token', accessToken);
   }

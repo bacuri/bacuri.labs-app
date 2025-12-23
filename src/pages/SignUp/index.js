@@ -19,7 +19,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { useAuth } from '../../contexts/auth';
-import api from '../../services/api';
+import { register } from '../../services/authService';
 
 function SignUp() {
   const navigation = useNavigation();
@@ -88,7 +88,7 @@ function SignUp() {
     };
 
     try {
-      await api.post('/register', data);
+      await register(data);
 
       await login(values.email, values.password);
     } catch (error) {

@@ -6,7 +6,7 @@ import { VaccineList, Error, Loading } from './styles';
 import { Container } from '../../components/GlobalStyles';
 import VaccineCard from '../../components/VaccineCard';
 
-import api from '../../services/api';
+import { getVaccineTimeline } from '../../services/vaccineService';
 
 function MyVaccines() {
   const route = useRoute();
@@ -20,9 +20,9 @@ function MyVaccines() {
   useEffect(() => {
     const getVaccines = async () => {
       try {
-        const response = await api.get(`vaccine/timeline?profileId=${id}`);
+        const vaccines = await getVaccineTimeline(id);
 
-        setVaccineList(response.data.content);
+        setVaccineList(vaccines);
       } catch (err) {
         setErrorMessage('Ocorreu um erro ao carregar a lista de vacinas');
       } finally {
