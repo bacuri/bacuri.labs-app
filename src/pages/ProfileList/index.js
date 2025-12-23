@@ -24,7 +24,7 @@ import Header from '../../components/Header';
 import Bear from '../../assets/icon.svg';
 
 import { useAuth } from '../../contexts/auth';
-import httpClient from '../../lib/httpClient';
+import { getUser } from '../../services/userService';
 
 function ProfileList() {
   const navigation = useNavigation();
@@ -38,9 +38,7 @@ function ProfileList() {
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const response = await httpClient.get('/user');
-
-        const { data } = response;
+        const data = await getUser();
         const { dependentProfiles } = data.content;
 
         setProfiles(dependentProfiles);

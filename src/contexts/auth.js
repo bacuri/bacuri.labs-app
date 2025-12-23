@@ -1,11 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { encode } from 'base-64';
-import getEnvVars from '../../environment';
 
 import httpClient from '../lib/httpClient';
-
-const { clientId, secret } = getEnvVars();
+import { login as authLogin } from '../services/authService';
 
 const AuthContext = createContext({});
 
@@ -27,21 +24,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   async function login(email, password) {
-    const data = {
-      grant_type: 'password',
-      username: email,
-      password,
-    };
-
-    const clientToken = encode(`${clientId}:${secret}`);
-
-    const response = await httpClient.post('/oauth/token', data, {
-      headers: {
-        Authorization: `Basic ${clientToken}`,
-      },
-    });
-
-    const { access_token: accessToken } = response.data;
+    const accessToken = await authLogin(email, password);
     setToken(accessToken);
 
     httpClient.defaults.headers.Authorization = `Bearer ${accessToken}`;

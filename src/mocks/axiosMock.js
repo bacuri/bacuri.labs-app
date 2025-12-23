@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import api from '../services/api';
+import api from '../lib/httpClient';
 
 export function setupAxiosMocks() {
   const mock = new MockAdapter(api, { delayResponse: 500 });

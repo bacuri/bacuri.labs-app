@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import httpClient from '../../lib/httpClient';
+import { getMyCampaigns } from '../../services/campaignService';
 
 import { Container } from '../../components/GlobalStyles';
 import {
@@ -23,11 +23,9 @@ const Campaigns = () => {
   useEffect(() => {
     const getCampaigns = async () => {
       try {
-        const response = await httpClient.get(
-          `/campaign/my-campaigns?profileId=${id}`,
-        );
+        const campaigns = await getMyCampaigns(id);
 
-        setCampaignsList(response.data.content);
+        setCampaignsList(campaigns);
       } catch (err) {
         console.log(err);
       } finally {
