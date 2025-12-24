@@ -126,7 +126,7 @@ function ProfileList() {
 
   return (
     <Container>
-      <Header rightSide={RightSideComponent} />
+      <Header RightSide={RightSideComponent} />
 
       {error ? (
         <ErrorPage />

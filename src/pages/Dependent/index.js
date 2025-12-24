@@ -17,8 +17,6 @@ import {
   Icon,
 } from './styles';
 
-import { Container } from '../../components/GlobalStyles';
-
 function Dependent() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -32,8 +30,6 @@ function Dependent() {
 
   return (
     <Background>
-      {/* <Container>
-      </Container> */}
       <Header>
         <HeaderTitle>{t('dependent.welcomeTitle')}</HeaderTitle>
         <HeaderDescription>

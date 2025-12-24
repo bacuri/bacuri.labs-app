@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const CampaignList = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    padding: 20,
+  },
+})``;
+
 export const CampaignCard = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;

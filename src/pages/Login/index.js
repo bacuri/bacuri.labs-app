@@ -90,7 +90,7 @@ function Login() {
         style={{ position: 'absolute', top: 0, right: 0 }}
       />
       <Header>
-        <Logo width="150" height="150" />
+        <Logo width="94" height="150" />
       </Header>
 
       {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
