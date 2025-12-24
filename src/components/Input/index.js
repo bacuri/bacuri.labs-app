@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { InputNormal, InputMask } from './styles';
 
 function Input({ masked, error, ...props }, ref) {

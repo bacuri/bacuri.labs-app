@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Alert, ActivityIndicator } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Marker } from 'react-native-maps';

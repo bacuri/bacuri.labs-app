@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
@@ -155,7 +155,10 @@ function AddDependent() {
             dropdownIconColor="#FFFFFF"
           >
             <Select.Item label={t('addDependent.genderMale')} value="MALE" />
-            <Select.Item label={t('addDependent.genderFemale')} value="FEMALE" />
+            <Select.Item
+              label={t('addDependent.genderFemale')}
+              value="FEMALE"
+            />
           </Select>
           {touched.gender && errors.gender && (
             <ErrorMessage>{errors.gender}</ErrorMessage>

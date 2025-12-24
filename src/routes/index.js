@@ -1,5 +1,3 @@
-import React from 'react';
-
 import SignOutStack from './SignOutStack';
 import SignInStack from './SignInStack';
 

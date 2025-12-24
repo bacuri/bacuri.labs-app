@@ -1,4 +1,3 @@
-import React from 'react';
 import { HeaderBar } from './styles';
 
 import Logo from '../../assets/logo.svg';
