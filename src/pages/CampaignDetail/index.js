@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 import { Container } from '../../components/GlobalStyles';
 import Button from '../../components/Button';
@@ -18,6 +19,7 @@ import {
 function CampaignDetail() {
   const navigation = useNavigation();
   const route = useRoute();
+  const { t } = useTranslation();
 
   const { title, description, image, places } = route.params;
 
@@ -45,16 +47,16 @@ function CampaignDetail() {
           </HeaderText>
         </Header>
 
-        <TitleSecondary>Informações gerais</TitleSecondary>
+        <TitleSecondary>{t('campaignDetail.generalInfoTitle')}</TitleSecondary>
 
         <NumberCard>
           <Number>{remainingVaccines()}</Number>
-          <Text>Vacinas restantes</Text>
+          <Text>{t('campaignDetail.remainingVaccines')}</Text>
         </NumberCard>
       </View>
 
       <Button onPress={() => navigation.navigate('CampaignMap', { places })}>
-        Ver locais disponíveis
+        {t('campaignDetail.viewAvailablePlaces')}
       </Button>
     </Container>
   );

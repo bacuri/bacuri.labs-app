@@ -3,6 +3,7 @@ import { ScrollView, View } from 'react-native';
 import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import {
   Container,
   ErrorMessage,
@@ -18,15 +19,16 @@ import { createDependentProfile } from '../../services/userService';
 
 function AddDependent() {
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const signUpSchema = yup.object({
-    name: yup.string().required('Nome é um campo obrigatório'),
-    birth_date: yup.string().required('Aniversário é um campo obrigatório'),
+    name: yup.string().required(t('validation.nameRequired')),
+    birth_date: yup.string().required(t('validation.birthDateRequired')),
     cpf: yup
       .string()
-      .min(11, 'O CPF deve ter pelo menos 11 números')
-      .required('CPF é um campo obrigatório'),
-    gender: yup.string().required('Gênero é um campo obrigatório'),
+      .min(11, t('validation.cpfMin'))
+      .required(t('validation.cpfRequired')),
+    gender: yup.string().required(t('validation.genderRequired')),
   });
 
   const birthDateRef = useRef();
@@ -90,13 +92,11 @@ function AddDependent() {
     >
       <Container style={{ justifyContent: 'space-between' }}>
         <View>
-          <Title>
-            Olá, precisamos de algumas informações para cadastrar um dependente.
-          </Title>
+          <Title>{t('addDependent.title')}</Title>
 
-          <Label>Nome</Label>
+          <Label>{t('addDependent.nameLabel')}</Label>
           <Input
-            placeholder="Digite seu nome"
+            placeholder={t('addDependent.namePlaceholder')}
             onChangeText={handleChange('name')}
             value={values.name}
             onBlur={handleBlur('name')}
@@ -109,7 +109,7 @@ function AddDependent() {
             <ErrorMessage>{errors.name}</ErrorMessage>
           )}
 
-          <Label>Data de nascimento</Label>
+          <Label>{t('addDependent.birthDateLabel')}</Label>
           <Input
             masked
             type="datetime"
@@ -118,7 +118,7 @@ function AddDependent() {
             }}
             textContentType="birthdate"
             maxLength={10}
-            placeholder="DD/MM/YYYY"
+            placeholder={t('addDependent.birthDatePlaceholder')}
             onChangeText={handleChange('birth_date')}
             value={values.birth_date}
             onBlur={handleBlur('birth_date')}
@@ -131,12 +131,12 @@ function AddDependent() {
             <ErrorMessage>{errors.birth_date}</ErrorMessage>
           )}
 
-          <Label>CPF</Label>
+          <Label>{t('addDependent.cpfLabel')}</Label>
           <Input
             masked
             type="cpf"
             maxLength={14}
-            placeholder="Digite seu CPF"
+            placeholder={t('addDependent.cpfPlaceholder')}
             onChangeText={handleChange('cpf')}
             value={values.cpf}
             onBlur={handleBlur('cpf')}
@@ -146,7 +146,7 @@ function AddDependent() {
             <ErrorMessage>{errors.cpf}</ErrorMessage>
           )}
 
-          <Label>Gênero</Label>
+          <Label>{t('addDependent.genderLabel')}</Label>
           <Select
             mode="dropdown"
             selectedValue={values.gender}
@@ -154,8 +154,8 @@ function AddDependent() {
             onBlur={handleBlur('gender')}
             dropdownIconColor="#FFFFFF"
           >
-            <Select.Item label="MASCULINO" value="MALE" />
-            <Select.Item label="FEMININO" value="FEMALE" />
+            <Select.Item label={t('addDependent.genderMale')} value="MALE" />
+            <Select.Item label={t('addDependent.genderFemale')} value="FEMALE" />
           </Select>
           {touched.gender && errors.gender && (
             <ErrorMessage>{errors.gender}</ErrorMessage>
@@ -166,11 +166,11 @@ function AddDependent() {
 
         <View>
           <Button onPress={handleSubmit} loading={isSubmitting}>
-            Criar dependente
+            {t('addDependent.createDependent')}
           </Button>
 
           <GoBack onPress={() => navigation.goBack()}>
-            <GoBackText>Voltar</GoBackText>
+            <GoBackText>{t('addDependent.goBack')}</GoBackText>
           </GoBack>
         </View>
       </Container>

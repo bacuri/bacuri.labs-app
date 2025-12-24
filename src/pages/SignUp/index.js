@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
 import { Picker } from '@react-native-picker/picker';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessage, Label, Select } from '../../components/GlobalStyles';
 import {
   Title,
@@ -22,27 +23,28 @@ import { useAuth } from '../../contexts/auth';
 import { register } from '../../services/authService';
 
 function SignUp() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { login } = useAuth();
 
   const signUpSchema = yup.object({
-    name: yup.string().required('Nome é um campo obrigatório'),
-    email: yup.string().required('E-mail é um campo obrigatório'),
-    birth_date: yup.string().required('Aniversário é um campo obrigatório'),
+    name: yup.string().required(t('validation.nameRequired')),
+    email: yup.string().required(t('validation.emailRequired')),
+    birth_date: yup.string().required(t('validation.birthDateRequired')),
     cpf: yup
       .string()
-      .min(11, 'O CPF deve ter pelo menos 11 números')
-      .required('CPF é um campo obrigatório'),
-    gender: yup.string().required('Gênero é um campo obrigatório'),
+      .min(11, t('validation.cpfMin'))
+      .required(t('validation.cpfRequired')),
+    gender: yup.string().required(t('validation.genderRequired')),
     password: yup
       .string()
-      .min(6, 'A senha deve ter pelo menos 6 caracteres')
-      .required('Senha é um campo obrigatório'),
+      .min(6, t('validation.passwordMin'))
+      .required(t('validation.passwordRequired')),
     confirm_password: yup
       .string()
-      .min(6, 'A confirmação de senha deve ter pelo menos 6 caracteres')
-      .required('Confirmação de senha é um campo obrigatório')
-      .oneOf([yup.ref('password'), null], 'As senhas devem ser iguais'),
+      .min(6, t('validation.confirmPasswordMin'))
+      .required(t('validation.confirmPasswordRequired'))
+      .oneOf([yup.ref('password'), null], t('validation.passwordsMustMatch')),
   });
 
   const emailRef = useRef();
@@ -126,11 +128,11 @@ function SignUp() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1, padding: 20 }}
     >
-      <Title>Olá, precisamos de suas informações para criar sua conta.</Title>
+      <Title>{t('signup.title')}</Title>
 
-      <Label>Nome</Label>
+      <Label>{t('signup.nameLabel')}</Label>
       <Input
-        placeholder="Digite seu nome"
+        placeholder={t('signup.namePlaceholder')}
         onChangeText={handleChange('name')}
         value={values.name}
         onBlur={handleBlur('name')}
@@ -142,9 +144,9 @@ function SignUp() {
         <ErrorMessage>{errors.name}</ErrorMessage>
       )}
 
-      <Label>E-mail</Label>
+      <Label>{t('signup.emailLabel')}</Label>
       <Input
-        placeholder="Digite seu e-mail"
+        placeholder={t('signup.emailPlaceholder')}
         keyboardType="email-address"
         onChangeText={handleChange('email')}
         autoCapitalize="none"
@@ -159,7 +161,7 @@ function SignUp() {
         <ErrorMessage>{errors.email}</ErrorMessage>
       )}
 
-      <Label>Data de nascimento</Label>
+      <Label>{t('signup.birthDateLabel')}</Label>
       <Input
         masked
         type="datetime"
@@ -167,7 +169,7 @@ function SignUp() {
           format: 'DD/MM/YYYY',
         }}
         maxLength={10}
-        placeholder="DD/MM/YYYY"
+        placeholder={t('signup.birthDatePlaceholder')}
         onChangeText={handleChange('birth_date')}
         value={values.birth_date}
         onBlur={handleBlur('birth_date')}
@@ -180,12 +182,12 @@ function SignUp() {
         <ErrorMessage>{errors.birth_date}</ErrorMessage>
       )}
 
-      <Label>CPF</Label>
+      <Label>{t('signup.cpfLabel')}</Label>
       <Input
         masked
         type="cpf"
         maxLength={14}
-        placeholder="Digite seu CPF"
+        placeholder={t('signup.cpfPlaceholder')}
         onChangeText={handleChange('cpf')}
         value={values.cpf}
         onBlur={handleBlur('cpf')}
@@ -196,22 +198,22 @@ function SignUp() {
       />
       {touched.cpf && errors.cpf && <ErrorMessage>{errors.cpf}</ErrorMessage>}
 
-      <Label>Gênero</Label>
+      <Label>{t('signup.genderLabel')}</Label>
       <Select
         selectedValue={values.gender}
         onValueChange={itemValue => setFieldValue('gender', itemValue)}
         onBlur={handleBlur('gender')}
       >
-        <Picker.Item label="MASCULINO" value="MALE" />
-        <Picker.Item label="FEMININO" value="FEMALE" />
+        <Picker.Item label={t('signup.genderMale')} value="MALE" />
+        <Picker.Item label={t('signup.genderFemale')} value="FEMALE" />
       </Select>
       {touched.gender && errors.gender && (
         <ErrorMessage>{errors.gender}</ErrorMessage>
       )}
 
-      <Label>Senha</Label>
+      <Label>{t('signup.passwordLabel')}</Label>
       <Input
-        placeholder="Digite sua senha"
+        placeholder={t('signup.passwordPlaceholder')}
         secureTextEntry
         onChangeText={handleChange('password')}
         value={values.password}
@@ -225,9 +227,9 @@ function SignUp() {
         <ErrorMessage>{errors.password}</ErrorMessage>
       )}
 
-      <Label>Confirmar senha</Label>
+      <Label>{t('signup.confirmPasswordLabel')}</Label>
       <Input
-        placeholder="Repite a senha"
+        placeholder={t('signup.confirmPasswordPlaceholder')}
         secureTextEntry
         onChangeText={handleChange('confirm_password')}
         value={values.confirm_password}
@@ -239,22 +241,22 @@ function SignUp() {
       )}
 
       <TermsAndConditions>
-        <TermsAndConditionsText>
-          Declaro que aceito os termos de uso.
-        </TermsAndConditionsText>
+        <TermsAndConditionsText>{t('signup.termsText')}</TermsAndConditionsText>
         <TermsAndConditionsLink>
-          <TermsAndConditionsLinkText>Ver termos</TermsAndConditionsLinkText>
+          <TermsAndConditionsLinkText>
+            {t('signup.termsLink')}
+          </TermsAndConditionsLinkText>
         </TermsAndConditionsLink>
       </TermsAndConditions>
 
       {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
 
       <Button onPress={handleSubmit} loading={isSubmitting}>
-        Criar uma conta agora
+        {t('signup.createAccount')}
       </Button>
 
       <GoBack onPress={() => navigation.goBack()}>
-        <GoBackText>Voltar</GoBackText>
+        <GoBackText>{t('signup.goBack')}</GoBackText>
       </GoBack>
     </ScrollView>
   );

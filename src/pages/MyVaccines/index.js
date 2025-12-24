@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 import { VaccineList, Error, Loading } from './styles';
 
@@ -10,6 +11,7 @@ import { getVaccineTimeline } from '../../services/vaccineService';
 
 function MyVaccines() {
   const route = useRoute();
+  const { t } = useTranslation();
 
   const { id } = route.params;
 
@@ -24,7 +26,7 @@ function MyVaccines() {
 
         setVaccineList(vaccines);
       } catch (err) {
-        setErrorMessage('Ocorreu um erro ao carregar a lista de vacinas');
+        setErrorMessage(t('myVaccines.errorMessage'));
       } finally {
         setLoading(false);
       }

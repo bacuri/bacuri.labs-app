@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 import { Container } from '../../components/GlobalStyles';
 import {
@@ -30,6 +31,7 @@ function ProfileList() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { logout } = useAuth();
+  const { t } = useTranslation();
 
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,11 +57,11 @@ function ProfileList() {
 
   const ErrorPage = () => (
     <View>
-      <Text>Ocorreu um erro ao carregar a lista de dependentes</Text>
+      <Text>{t('profileList.errorTitle')}</Text>
 
-      <Text>Tente novamente</Text>
+      <Text>{t('profileList.errorSubtitle')}</Text>
       <TouchableOpacity>
-        <Text>Recarregar lista</Text>
+        <Text>{t('profileList.reloadButton')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -109,7 +111,7 @@ function ProfileList() {
 
   const RightSideComponent = () => (
     <Logout onPress={logout}>
-      <LogoutText>Sair</LogoutText>
+      <LogoutText>{t('profileList.logout')}</LogoutText>
     </Logout>
   );
 
@@ -130,7 +132,7 @@ function ProfileList() {
         <ErrorPage />
       ) : (
         <>
-          <Title>Selecione seu perfil</Title>
+          <Title>{t('profileList.selectProfile')}</Title>
 
           <FlatList
             data={createRows([...profiles, { addButton: true }], columns)}

@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 import {
   Background,
@@ -21,6 +22,7 @@ import { Container } from '../../components/GlobalStyles';
 function Dependent() {
   const navigation = useNavigation();
   const route = useRoute();
+  const { t } = useTranslation();
 
   const { id, name } = route.params;
 
@@ -33,23 +35,22 @@ function Dependent() {
       {/* <Container>
       </Container> */}
       <Header>
-        <HeaderTitle>Boas vindas ao Bacuri Labs</HeaderTitle>
+        <HeaderTitle>{t('dependent.welcomeTitle')}</HeaderTitle>
         <HeaderDescription>
-          Faça aplicação das suas vacinas, veja as vacinas aplicadas e as
-          campanhas disponíveis para você.
+          {t('dependent.welcomeDescription')}
         </HeaderDescription>
       </Header>
 
       <Footer>
-        <Title>Ações</Title>
+        <Title>{t('dependent.actionsTitle')}</Title>
         <ScrollView>
           <Card onPress={() => navigation.navigate('ApplyVaccine', { id })}>
             <IconCard>
               <Icon name="syringe" color="#000" size={16} />
             </IconCard>
-            <CardTitle>Registrar vacina</CardTitle>
+            <CardTitle>{t('dependent.applyVaccineTitle')}</CardTitle>
             <CardDescription>
-              Escaneie uma vacina para que seja aplicada na sua carteira
+              {t('dependent.applyVaccineDescription')}
             </CardDescription>
           </Card>
 
@@ -57,10 +58,9 @@ function Dependent() {
             <IconCard>
               <Icon name="notes-medical" color="#000" size={16} />
             </IconCard>
-            <CardTitle>Minhas Vacinas</CardTitle>
+            <CardTitle>{t('dependent.myVaccinesTitle')}</CardTitle>
             <CardDescription>
-              Veja toda a linha do tempo das vacinas aplicadas, doses e próximas
-              vacinas
+              {t('dependent.myVaccinesDescription')}
             </CardDescription>
           </Card>
 
@@ -68,9 +68,9 @@ function Dependent() {
             <IconCard>
               <Icon name="marker" color="#000" size={16} />
             </IconCard>
-            <CardTitle>Campanhas de vacinação</CardTitle>
+            <CardTitle>{t('dependent.campaignsTitle')}</CardTitle>
             <CardDescription>
-              Veja as campanhas de vacinação disponíveis para você
+              {t('dependent.campaignsDescription')}
             </CardDescription>
           </Card>
         </ScrollView>

@@ -7,6 +7,7 @@ import { colors } from './src/styles';
 import { AuthProvider } from './src/contexts/auth';
 import Routes from './src/routes';
 import { setupAxiosMocks } from './src/mocks/axiosMock';
+import './src/i18n';
 
 const MyTheme = {
   ...DefaultTheme,

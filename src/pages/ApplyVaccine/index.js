@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 // import { BarCodeScanner } from 'expo-camera';
 import { decode } from 'base-64';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useTranslation } from 'react-i18next';
 import { Layer, LayerCenter, Focused, Title } from './styles';
 
 import { applyVaccine } from '../../services/vaccineService';
@@ -11,6 +12,7 @@ import { applyVaccine } from '../../services/vaccineService';
 function ApplyVaccine() {
   const navigation = useNavigation();
   const route = useRoute();
+  const { t } = useTranslation();
 
   const { id } = route.params;
 
@@ -29,12 +31,9 @@ function ApplyVaccine() {
 
       await applyVaccine(id, decodedData);
 
-      Alert.alert(`Sucesso!`, `Vacina aplicada com sucesso`);
+      Alert.alert(t('applyVaccine.successTitle'), t('applyVaccine.successMessage'));
     } catch (err) {
-      Alert.alert(
-        'Ops!',
-        'Ocorreu um erro ao aplicar a vacina, tente novamente!',
-      );
+      Alert.alert(t('applyVaccine.errorTitle'), t('applyVaccine.errorMessage'));
     } finally {
       navigation.goBack();
     }
@@ -47,8 +46,11 @@ function ApplyVaccine() {
   if (!permission.granted) {
     return (
       <View>
-        <Title>We need your permission to show the camera</Title>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Title>{t('applyVaccine.permissionTitle')}</Title>
+        <Button
+          onPress={requestPermission}
+          title={t('applyVaccine.permissionButton')}
+        />
       </View>
     );
   }

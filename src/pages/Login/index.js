@@ -3,6 +3,7 @@ import { Keyboard } from 'react-native';
 import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { Container, Input, ErrorMessage } from '../../components/GlobalStyles';
 import {
   Header,
@@ -21,18 +22,19 @@ import Edge from '../../assets/canto.svg';
 import { useAuth } from '../../contexts/auth';
 
 function Login() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { login } = useAuth();
 
   const loginSchema = yup.object({
     email: yup
       .string()
-      .email('O e-mail deve ser válido')
-      .required('E-mail é um campo obrigatório'),
+      .email(t('validation.emailInvalid'))
+      .required(t('validation.emailRequired')),
     password: yup
       .string()
-      .min(6, 'A senha deve ter pelo menos 6 caracteres')
-      .required('Senha é um campo obrigatório'),
+      .min(6, t('validation.passwordMin'))
+      .required(t('validation.passwordRequired')),
   });
 
   const passwordRef = useRef();
@@ -56,7 +58,7 @@ function Login() {
       const { error } = err.response.data;
 
       if (error === 'invalid_grant')
-        actions.setFieldError('general', 'Seu e-mail ou senha são inválidos!');
+        actions.setFieldError('general', t('validation.invalidCredentials'));
 
       actions.setSubmitting(false);
     }
@@ -94,7 +96,7 @@ function Login() {
       {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
 
       <Input
-        placeholder="E-MAIL"
+        placeholder={t('login.emailPlaceholder')}
         keyboardType="email-address"
         autoCapitalize="none"
         onChangeText={handleChange('email')}
@@ -105,7 +107,7 @@ function Login() {
         <ErrorMessage>{errors.email}</ErrorMessage>
       )}
       <Input
-        placeholder="SENHA"
+        placeholder={t('login.passwordPlaceholder')}
         secureTextEntry
         ref={passwordRef}
         autoCapitalize="none"
@@ -119,7 +121,7 @@ function Login() {
       )}
 
       <ForgotPassword>
-        <ForgotPasswordText>Esqueceu sua senha?</ForgotPasswordText>
+        <ForgotPasswordText>{t('login.forgotPassword')}</ForgotPasswordText>
       </ForgotPassword>
 
       <Button
@@ -127,14 +129,14 @@ function Login() {
         loading={isSubmitting}
         disabled={!isValid || isSubmitting}
       >
-        Entrar
+        {t('login.submit')}
       </Button>
 
       <SignUp>
-        <SignUpText>Ainda não tem cadastro? </SignUpText>
+        <SignUpText>{t('login.noAccount')}</SignUpText>
         <SignUpLink>
           <SignUpLinkText onPress={() => navigation.navigate('SignUp')}>
-            Crie uma conta agora
+            {t('login.createAccountNow')}
           </SignUpLinkText>
         </SignUpLink>
       </SignUp>
