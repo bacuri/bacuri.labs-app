@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { decode } from 'base-64';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
-import { Layer, LayerCenter, Focused, Title } from './styles';
+import { OverlayContainer, Layer, LayerCenter, Focused, Title } from './styles';
 
 import { applyVaccine } from '../../services/vaccineService';
 
@@ -31,7 +31,10 @@ function ApplyVaccine() {
 
       await applyVaccine(id, decodedData);
 
-      Alert.alert(t('applyVaccine.successTitle'), t('applyVaccine.successMessage'));
+      Alert.alert(
+        t('applyVaccine.successTitle'),
+        t('applyVaccine.successMessage'),
+      );
     } catch (err) {
       Alert.alert(t('applyVaccine.errorTitle'), t('applyVaccine.errorMessage'));
     } finally {
@@ -56,22 +59,25 @@ function ApplyVaccine() {
   }
 
   return (
-    <CameraView
-      facing="back"
-      barcodeScannerSettings={{
-        barcodeTypes: ['qr'],
-      }}
-      onBarcodeScanned={handleBarCodeScanned}
-      style={StyleSheet.absoluteFill}
-    >
-      <Layer />
-      <LayerCenter>
+    <>
+      <CameraView
+        facing="back"
+        barcodeScannerSettings={{
+          barcodeTypes: ['qr'],
+        }}
+        onBarcodeScanned={handleBarCodeScanned}
+        style={StyleSheet.absoluteFill}
+      />
+      <OverlayContainer>
         <Layer />
-        <Focused />
+        <LayerCenter>
+          <Layer />
+          <Focused />
+          <Layer />
+        </LayerCenter>
         <Layer />
-      </LayerCenter>
-      <Layer />
-    </CameraView>
+      </OverlayContainer>
+    </>
   );
 }
 
