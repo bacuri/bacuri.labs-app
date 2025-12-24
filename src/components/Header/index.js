@@ -3,7 +3,7 @@ import { HeaderBar } from './styles';
 import Logo from '../../assets/logo.svg';
 import Edge from '../../assets/canto.svg';
 
-function Header({ rightSide }) {
+function Header({ RightSide }) {
   return (
     <>
       <Edge
@@ -14,7 +14,7 @@ function Header({ rightSide }) {
       <HeaderBar>
         <Logo width="120" height="120" />
 
-        {!!rightSide && rightSide()}
+        <RightSide />
       </HeaderBar>
     </>
   );

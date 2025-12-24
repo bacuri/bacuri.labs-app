@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../styles';
 
-export const Container = styled.SafeAreaView`
+export const Container = styled(SafeAreaView)`
   flex: 1;
   background-color: ${colors.background};
   padding: 20px;

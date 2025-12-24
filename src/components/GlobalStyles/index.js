@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Picker } from '@react-native-picker/picker';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export const Container = styled.SafeAreaView`
+export const Container = styled(SafeAreaView)`
   flex: 1;
   padding: 20px;
 
