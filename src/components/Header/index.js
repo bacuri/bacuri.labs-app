@@ -7,12 +7,12 @@ function Header({ RightSide }) {
   return (
     <>
       <Edge
-        width="200"
-        height="120"
+        width="300"
+        height="180"
         style={{ position: 'absolute', top: 0, right: 0 }}
       />
       <HeaderBar>
-        <Logo width="120" height="120" />
+        <Logo width="94" height="150" />
 
         <RightSide />
       </HeaderBar>
