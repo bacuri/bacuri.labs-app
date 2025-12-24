@@ -9,6 +9,7 @@ import {
   CampaignCard,
   CampaignCardTitle,
   CampaignCardDescription,
+  CampaignList,
 } from './styles';
 
 const Campaigns = () => {
@@ -45,22 +46,21 @@ const Campaigns = () => {
   }
 
   return (
-    <Container>
-      {campaignsList.map(campaign => (
-        <CampaignCard
-          key={String(campaign.id)}
-          onPress={() => navigation.navigate('CampaignDetail', { ...campaign })}
-        >
+    <CampaignList
+      data={campaignsList}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <CampaignCard onPress={() => navigation.navigate('CampaignDetail', { ...item })}>
           <View>
-            <CampaignCardTitle>{campaign.title}</CampaignCardTitle>
+            <CampaignCardTitle>{item.title}</CampaignCardTitle>
             <CampaignCardDescription>
-              {campaign.description}
+              {item.description}
             </CampaignCardDescription>
           </View>
           <FontAwesome5 name="arrow-right" color="#f2f2f2" size={17} />
         </CampaignCard>
-      ))}
-    </Container>
+      )}
+    />
   );
 };
 
