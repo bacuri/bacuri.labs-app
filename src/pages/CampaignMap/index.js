@@ -3,12 +3,14 @@ import { Alert, ActivityIndicator } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useTranslation } from 'react-i18next';
 
 import { Container } from '../../components/GlobalStyles';
 import { Map } from './styles';
 
 const CampaignMap = () => {
   const route = useRoute();
+  const { t } = useTranslation();
 
   const { places } = route.params;
 
@@ -20,8 +22,8 @@ const CampaignMap = () => {
 
       if (status !== 'granted') {
         Alert.alert(
-          'Ops',
-          'Precisamos de sua permissão para obter a localização',
+          t('campaignMap.permissionTitle'),
+          t('campaignMap.permissionMessage'),
         );
         return;
       }

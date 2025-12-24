@@ -34,8 +34,8 @@ export function setupAxiosMocks() {
         vaccine: {
           name: 'teste',
           preventedDiseases: 'malaria',
-          initialRange: '',
-          finalRange: '',
+          initialRange: 0,
+          finalRange: 0,
           observation: '',
           dosage: 'DOSAGE_UNIQUE',
           range: 1,

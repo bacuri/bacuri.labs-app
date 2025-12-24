@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
@@ -17,6 +18,8 @@ const screenOptions = {
 };
 
 function SignOutStack() {
+  const { t } = useTranslation();
+
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -27,7 +30,7 @@ function SignOutStack() {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
-        options={{ headerTitle: 'Crie sua conta' }}
+        options={{ headerTitle: t('routes.signUp') }}
       />
     </Stack.Navigator>
   );

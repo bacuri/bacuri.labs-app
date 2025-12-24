@@ -1,0 +1,130 @@
+{
+  "validation": {
+    "emailInvalid": "O e-mail deve ser válido",
+    "emailRequired": "E-mail é um campo obrigatório",
+    "passwordMin": "A senha deve ter pelo menos 6 caracteres",
+    "passwordRequired": "Senha é um campo obrigatório",
+    "nameRequired": "Nome é um campo obrigatório",
+    "birthDateRequired": "Aniversário é um campo obrigatório",
+    "cpfMin": "O CPF deve ter pelo menos 11 números",
+    "cpfRequired": "CPF é um campo obrigatório",
+    "genderRequired": "Gênero é um campo obrigatório",
+    "confirmPasswordMin": "A confirmação de senha deve ter pelo menos 6 caracteres",
+    "confirmPasswordRequired": "Confirmação de senha é um campo obrigatório",
+    "passwordsMustMatch": "As senhas devem ser iguais",
+    "invalidCredentials": "Seu e-mail ou senha são inválidos!"
+  },
+  "login": {
+    "emailPlaceholder": "E-MAIL",
+    "passwordPlaceholder": "SENHA",
+    "forgotPassword": "Esqueceu sua senha?",
+    "submit": "Entrar",
+    "noAccount": "Ainda não tem cadastro? ",
+    "createAccountNow": "Crie uma conta agora"
+  },
+  "signup": {
+    "title": "Olá, precisamos de suas informações para criar sua conta.",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Digite seu nome",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Digite seu e-mail",
+    "birthDateLabel": "Data de nascimento",
+    "birthDatePlaceholder": "DD/MM/YYYY",
+    "cpfLabel": "CPF",
+    "cpfPlaceholder": "Digite seu CPF",
+    "genderLabel": "Gênero",
+    "genderMale": "MASCULINO",
+    "genderFemale": "FEMININO",
+    "passwordLabel": "Senha",
+    "passwordPlaceholder": "Digite sua senha",
+    "confirmPasswordLabel": "Confirmar senha",
+    "confirmPasswordPlaceholder": "Repite a senha",
+    "termsText": "Declaro que aceito os termos de uso.",
+    "termsLink": "Ver termos",
+    "createAccount": "Criar uma conta agora",
+    "goBack": "Voltar"
+  },
+  "addDependent": {
+    "title": "Olá, precisamos de algumas informações para cadastrar um dependente.",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Digite o nome do dependente",
+    "birthDateLabel": "Data de nascimento",
+    "birthDatePlaceholder": "DD/MM/YYYY",
+    "cpfLabel": "CPF",
+    "cpfPlaceholder": "Digite o CPF do dependente",
+    "genderLabel": "Gênero",
+    "genderMale": "MASCULINO",
+    "genderFemale": "FEMININO",
+    "createDependent": "Criar dependente",
+    "goBack": "Voltar"
+  },
+  "applyVaccine": {
+    "successTitle": "Sucesso!",
+    "successMessage": "Vacina aplicada com sucesso",
+    "errorTitle": "Ops!",
+    "errorMessage": "Ocorreu um erro ao aplicar a vacina, tente novamente!",
+    "permissionTitle": "Precisamos da sua permissão para mostrar a câmera",
+    "permissionButton": "Conceder permissão"
+  },
+  "campaignDetail": {
+    "generalInfoTitle": "Informações gerais",
+    "remainingVaccines": "Vacinas restantes",
+    "viewAvailablePlaces": "Ver locais disponíveis"
+  },
+  "campaignMap": {
+    "permissionTitle": "Ops",
+    "permissionMessage": "Precisamos de sua permissão para obter a localização"
+  },
+  "dependent": {
+    "welcomeTitle": "Boas vindas ao Bacuri Labs",
+    "welcomeDescription": "Faça aplicação das suas vacinas, veja as vacinas aplicadas e as campanhas disponíveis para você.",
+    "actionsTitle": "Ações",
+    "applyVaccineTitle": "Registrar vacina",
+    "applyVaccineDescription": "Escaneie uma vacina para que seja aplicada na sua carteira",
+    "myVaccinesTitle": "Minhas Vacinas",
+    "myVaccinesDescription": "Veja toda a linha do tempo das vacinas aplicadas, doses e próximas vacinas",
+    "campaignsTitle": "Campanhas de vacinação",
+    "campaignsDescription": "Veja as campanhas de vacinação disponíveis para você"
+  },
+  "myVaccines": {
+    "errorMessage": "Ocorreu um erro ao carregar a lista de vacinas"
+  },
+  "profileList": {
+    "errorTitle": "Ocorreu um erro ao carregar a lista de dependentes",
+    "errorSubtitle": "Tente novamente",
+    "reloadButton": "Recarregar lista",
+    "logout": "Sair",
+    "selectProfile": "Selecione seu perfil"
+  },
+  "routes": {
+    "profileList": "Lista de perfis",
+    "dependent": "Dependente",
+    "myVaccines": "Minhas vacinas",
+    "addDependent": "Adicionar dependente",
+    "applyVaccine": "Aplicar vacina",
+    "campaigns": "Campanhas",
+    "campaignDetail": "Detalhe da campanha",
+    "campaignMap": "Postos disponíveis",
+    "signUp": "Crie sua conta"
+  },
+  "vaccineCard": {
+    "dosageUnique": "Dose única",
+    "dosage1": "Primeira dose",
+    "dosage2": "Segunda dose",
+    "dosage3": "Terceira dose",
+    "dosageReinforcement": "Reforço",
+    "dosage1Reinforcement": "Primeira dose de reforço",
+    "dosage2Reinforcement": "Segunda dose de reforço",
+    "dosageDecade": "Dose por década",
+    "preventedDiseases": "Doenças prevenidas: {{diseases}}",
+    "applicationAge": "Idade de aplicação: {{age}}",
+    "dose": "Dose: {{doseType}}",
+    "observation": "Observação: {{observation}}",
+    "ageYear_one": "{{count}} ano",
+    "ageYear_other": "{{count}} anos",
+    "ageMonth_one": "{{count}} mês",
+    "ageMonth_other": "{{count}} meses",
+    "ageRange": "{{initial}} até {{final}}",
+    "atBirth": "Ao nascer"
+  }
+}

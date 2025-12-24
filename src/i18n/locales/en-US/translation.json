@@ -1,0 +1,130 @@
+{
+  "validation": {
+    "emailInvalid": "The e-mail must be valid",
+    "emailRequired": "E-mail is a required field",
+    "passwordMin": "The password must be at least 6 characters long",
+    "passwordRequired": "Password is a required field",
+    "nameRequired": "Name is a required field",
+    "birthDateRequired": "Birthday is a required field",
+    "cpfMin": "CPF must have at least 11 numbers",
+    "cpfRequired": "CPF is a required field",
+    "genderRequired": "Gender is a required field",
+    "confirmPasswordMin": "Password confirmation must be at least 6 characters long",
+    "confirmPasswordRequired": "Password confirmation is a required field",
+    "passwordsMustMatch": "Passwords must match",
+    "invalidCredentials": "Your e-mail or password is invalid!"
+  },
+  "login": {
+    "emailPlaceholder": "E-MAIL",
+    "passwordPlaceholder": "PASSWORD",
+    "forgotPassword": "Forgot your password?",
+    "submit": "Sign in",
+    "noAccount": "Don't have an account yet? ",
+    "createAccountNow": "Create an account now"
+  },
+  "signup": {
+    "title": "Hello, we need your information to create your account.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Type your name",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Type your e-mail",
+    "birthDateLabel": "Date of birth",
+    "birthDatePlaceholder": "DD/MM/YYYY",
+    "cpfLabel": "CPF",
+    "cpfPlaceholder": "Type your CPF",
+    "genderLabel": "Gender",
+    "genderMale": "MALE",
+    "genderFemale": "FEMALE",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Type your password",
+    "confirmPasswordLabel": "Confirm password",
+    "confirmPasswordPlaceholder": "Repeat the password",
+    "termsText": "I declare that I accept the terms of use.",
+    "termsLink": "See terms",
+    "createAccount": "Create an account now",
+    "goBack": "Go back"
+  },
+  "addDependent": {
+    "title": "Hello, we need some information to register a dependent.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Type the dependent's name",
+    "birthDateLabel": "Date of birth",
+    "birthDatePlaceholder": "DD/MM/YYYY",
+    "cpfLabel": "CPF",
+    "cpfPlaceholder": "Type the dependent's CPF",
+    "genderLabel": "Gender",
+    "genderMale": "MALE",
+    "genderFemale": "FEMALE",
+    "createDependent": "Create dependent",
+    "goBack": "Go back"
+  },
+  "applyVaccine": {
+    "successTitle": "Success!",
+    "successMessage": "Vaccine successfully applied.",
+    "errorTitle": "Oops!",
+    "errorMessage": "An error occurred while applying the vaccine, please try again.",
+    "permissionTitle": "We need your permission to show the camera",
+    "permissionButton": "Grant permission"
+  },
+  "campaignDetail": {
+    "generalInfoTitle": "General information",
+    "remainingVaccines": "Remaining vaccines",
+    "viewAvailablePlaces": "View available locations"
+  },
+  "campaignMap": {
+    "permissionTitle": "Oops",
+    "permissionMessage": "We need your permission to get the location"
+  },
+  "dependent": {
+    "welcomeTitle": "Welcome to Bacuri Labs",
+    "welcomeDescription": "Apply your vaccines, see the vaccines that have been applied and the campaigns available for you.",
+    "actionsTitle": "Actions",
+    "applyVaccineTitle": "Register vaccine",
+    "applyVaccineDescription": "Scan a vaccine so that it can be applied to your card",
+    "myVaccinesTitle": "My Vaccines",
+    "myVaccinesDescription": "See the entire timeline of applied vaccines, doses and upcoming vaccines",
+    "campaignsTitle": "Vaccination campaigns",
+    "campaignsDescription": "See the vaccination campaigns available for you"
+  },
+  "myVaccines": {
+    "errorMessage": "An error occurred while loading the vaccine list"
+  },
+  "profileList": {
+    "errorTitle": "An error occurred while loading the dependents list",
+    "errorSubtitle": "Please try again",
+    "reloadButton": "Reload list",
+    "logout": "Log out",
+    "selectProfile": "Select your profile"
+  },
+  "routes": {
+    "profileList": "Profile list",
+    "dependent": "Dependent",
+    "myVaccines": "My vaccines",
+    "addDependent": "Add dependent",
+    "applyVaccine": "Apply vaccine",
+    "campaigns": "Campaigns",
+    "campaignDetail": "Campaign detail",
+    "campaignMap": "Available posts",
+    "signUp": "Create your account"
+  },
+  "vaccineCard": {
+    "dosageUnique": "Single dose",
+    "dosage1": "First dose",
+    "dosage2": "Second dose",
+    "dosage3": "Third dose",
+    "dosageReinforcement": "Booster",
+    "dosage1Reinforcement": "First booster dose",
+    "dosage2Reinforcement": "Second booster dose",
+    "dosageDecade": "Dose per decade",
+    "preventedDiseases": "Prevented diseases: {{diseases}}",
+    "applicationAge": "Application age: {{age}}",
+    "dose": "Dose: {{doseType}}",
+    "observation": "Observation: {{observation}}",
+    "ageYear_one": "{{count}} year",
+    "ageYear_other": "{{count}} years",
+    "ageMonth_one": "{{count}} month",
+    "ageMonth_other": "{{count}} months",
+    "ageRange": "{{initial}} until {{final}}",
+    "atBirth": "At birth"
+  }
+}
