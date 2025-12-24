@@ -106,5 +106,25 @@
     "campaignDetail": "Campaign detail",
     "campaignMap": "Available posts",
     "signUp": "Create your account"
+  },
+  "vaccineCard": {
+    "dosageUnique": "Single dose",
+    "dosage1": "First dose",
+    "dosage2": "Second dose",
+    "dosage3": "Third dose",
+    "dosageReinforcement": "Booster",
+    "dosage1Reinforcement": "First booster dose",
+    "dosage2Reinforcement": "Second booster dose",
+    "dosageDecade": "Dose per decade",
+    "preventedDiseases": "Prevented diseases: {{diseases}}",
+    "applicationAge": "Application age: {{age}}",
+    "dose": "Dose: {{doseType}}",
+    "observation": "Observation: {{observation}}",
+    "ageYear_one": "{{count}} year",
+    "ageYear_other": "{{count}} years",
+    "ageMonth_one": "{{count}} month",
+    "ageMonth_other": "{{count}} months",
+    "ageRange": "{{initial}} until {{final}}",
+    "atBirth": "At birth"
   }
 }

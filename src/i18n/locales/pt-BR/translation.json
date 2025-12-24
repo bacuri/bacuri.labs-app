@@ -106,5 +106,25 @@
     "campaignDetail": "Detalhe da campanha",
     "campaignMap": "Postos disponíveis",
     "signUp": "Crie sua conta"
+  },
+  "vaccineCard": {
+    "dosageUnique": "Dose única",
+    "dosage1": "Primeira dose",
+    "dosage2": "Segunda dose",
+    "dosage3": "Terceira dose",
+    "dosageReinforcement": "Reforço",
+    "dosage1Reinforcement": "Primeira dose de reforço",
+    "dosage2Reinforcement": "Segunda dose de reforço",
+    "dosageDecade": "Dose por década",
+    "preventedDiseases": "Doenças prevenidas: {{diseases}}",
+    "applicationAge": "Idade de aplicação: {{age}}",
+    "dose": "Dose: {{doseType}}",
+    "observation": "Observação: {{observation}}",
+    "ageYear_one": "{{count}} ano",
+    "ageYear_other": "{{count}} anos",
+    "ageMonth_one": "{{count}} mês",
+    "ageMonth_other": "{{count}} meses",
+    "ageRange": "{{initial}} até {{final}}",
+    "atBirth": "Ao nascer"
   }
 }

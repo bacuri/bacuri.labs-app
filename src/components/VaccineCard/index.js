@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FontAwesome5,
   MaterialIcons,
@@ -19,18 +20,8 @@ import {
   Ball,
 } from './styles';
 
-const dosageLabel = {
-  DOSAGE_UNIQUE: 'Dose única',
-  DOSAGE_1: 'Primeira dose',
-  DOSAGE_2: 'Segunda dose',
-  DOSAGE_3: 'Terceira dose',
-  DOSAGE_REINFORCEMENT: 'Reforço',
-  DOSAGE_1_REINFORCEMENT: 'Primeira dose de reforço',
-  DOSAGE_2_REINFORCEMENT: 'Segunda dose de reforço',
-  DOSAGE_DECADE: 'Dose por década',
-};
-
 function VaccineCard({ item }) {
+  const { t } = useTranslation();
   const [collapse, setCollapse] = useState(false);
   const [numberDoses, setNumberDoses] = useState({});
 
@@ -46,18 +37,29 @@ function VaccineCard({ item }) {
     nextVaccine,
   } = item.vaccine;
 
+  const dosageLabel = {
+    DOSAGE_UNIQUE: t('vaccineCard.dosageUnique'),
+    DOSAGE_1: t('vaccineCard.dosage1'),
+    DOSAGE_2: t('vaccineCard.dosage2'),
+    DOSAGE_3: t('vaccineCard.dosage3'),
+    DOSAGE_REINFORCEMENT: t('vaccineCard.dosageReinforcement'),
+    DOSAGE_1_REINFORCEMENT: t('vaccineCard.dosage1Reinforcement'),
+    DOSAGE_2_REINFORCEMENT: t('vaccineCard.dosage2Reinforcement'),
+    DOSAGE_DECADE: t('vaccineCard.dosageDecade'),
+  };
+
   useEffect(() => {
     const getNextVaccines = vaccine => {
-      let nextVaccine = vaccine;
+      let currentVaccine = vaccine;
 
       let numberVaccines = 0;
       let numberAppliedVaccines = 0;
 
-      while (nextVaccine) {
+      while (currentVaccine) {
         numberVaccines += 1;
-        numberAppliedVaccines += nextVaccine.applied ? 1 : 0;
+        numberAppliedVaccines += currentVaccine.applied ? 1 : 0;
 
-        nextVaccine = nextVaccine.nextVaccine;
+        currentVaccine = currentVaccine.nextVaccine;
       }
 
       return { numberVaccines, numberAppliedVaccines };
@@ -66,35 +68,31 @@ function VaccineCard({ item }) {
     setNumberDoses(getNextVaccines(nextVaccine));
   }, []);
 
-  const vaccineApplicationAge = (initialRange, finalRange) => {
-    let initialText = '';
-    let finalText = '';
-
-    if (initialRange > 15) {
-      initialRange /= 12;
-      finalRange /= 12;
-
-      const isPlural = initialRange > 1 ? 's' : '';
-
-      initialText = `${initialRange} ano${isPlural}`;
-      finalText = `${finalRange} ano${isPlural}`;
-    } else {
-      const isPlural = initialRange > 1 ? 'meses' : 'mês';
-
-      initialText = `${initialRange} ${isPlural}`;
-      finalText = `${finalRange} ${isPlural}`;
+  const formatAgeRange = (initialRangeValue, finalRangeValue) => {
+    if (initialRangeValue === 0) {
+      return t('vaccineCard.atBirth');
     }
 
-    if (initialRange !== finalRange) {
-      return `${initialText} até ${finalText}`;
-    }
-    if (initialRange === 0) {
-      return `Ao nascer`;
+    const isYears = initialRangeValue > 15;
+    const initialValue = isYears ? initialRangeValue / 12 : initialRangeValue;
+    const finalValue = isYears ? finalRangeValue / 12 : finalRangeValue;
+    const translationKey = isYears
+      ? 'vaccineCard.ageYear'
+      : 'vaccineCard.ageMonth';
+
+    const initialText = t(translationKey, { count: initialValue });
+    const finalText = t(translationKey, { count: finalValue });
+
+    if (initialValue !== finalValue) {
+      return t('vaccineCard.ageRange', {
+        initial: initialText,
+        final: finalText,
+      });
     }
     return initialText;
   };
 
-  const applicationRange = vaccineApplicationAge(initialRange, finalRange);
+  const applicationRange = formatAgeRange(initialRange, finalRange);
 
   return (
     <Card>
@@ -126,12 +124,16 @@ function VaccineCard({ item }) {
       <CardDetails>
         <Main>
           <CardDescription>
-            {`Doenças prevenidas: ${preventedDiseases}`}
+            {t('vaccineCard.preventedDiseases', {
+              diseases: preventedDiseases,
+            })}
           </CardDescription>
           <CardDescription>
-            {`Idade de aplicação: ${applicationRange}`}
+            {t('vaccineCard.applicationAge', { age: applicationRange })}
           </CardDescription>
-          <CardDescription>{`Dose: ${dosageLabel[dosage]}`}</CardDescription>
+          <CardDescription>
+            {t('vaccineCard.dose', { doseType: dosageLabel[dosage] })}
+          </CardDescription>
         </Main>
         <Details>
           {[...Array(numberDoses.numberVaccines)].map((e, index) => (
@@ -145,7 +147,9 @@ function VaccineCard({ item }) {
       {!!observation && (
         <>
           {collapse && (
-            <CardDescription>{`Observação: ${observation}`}</CardDescription>
+            <CardDescription>
+              {t('vaccineCard.observation', { observation })}
+            </CardDescription>
           )}
           <CollapseButton onPress={() => setCollapse(prevOpen => !prevOpen)}>
             <MaterialCommunityIcons
