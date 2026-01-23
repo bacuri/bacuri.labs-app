@@ -20,7 +20,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { useAuth } from '../../contexts/auth';
-import { register } from '../../services/authService';
+import { register } from '../../services/auth/auth.service';
 
 function SignUp() {
   const { t } = useTranslation();

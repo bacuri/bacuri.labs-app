@@ -7,7 +7,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
 import { OverlayContainer, Layer, LayerCenter, Focused, Title } from './styles';
 
-import { applyVaccine } from '../../services/vaccineService';
+import { applyVaccine } from '../../services/vaccine/vaccine.service';
 
 function ApplyVaccine() {
   const navigation = useNavigation();

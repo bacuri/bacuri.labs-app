@@ -25,7 +25,7 @@ import Header from '../../components/Header';
 import Bear from '../../assets/icon.svg';
 
 import { useAuth } from '../../contexts/auth';
-import { getUser } from '../../services/userService';
+import { getUser } from '../../services/user/user.service';
 
 function ProfileList() {
   const navigation = useNavigation();

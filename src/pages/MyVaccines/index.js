@@ -7,7 +7,7 @@ import { VaccineList, Error, Loading } from './styles';
 import { Container } from '../../components/GlobalStyles';
 import VaccineCard from '../../components/VaccineCard';
 
-import { getVaccineTimeline } from '../../services/vaccineService';
+import { getVaccineTimeline } from '../../services/vaccine/vaccine.service';
 
 function MyVaccines() {
   const route = useRoute();

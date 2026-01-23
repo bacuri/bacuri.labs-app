@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { getMyCampaigns } from '../../services/campaignService';
+import { getMyCampaigns } from '../../services/campaign/campaign.service';
 
 import { Container } from '../../components/GlobalStyles';
 import {

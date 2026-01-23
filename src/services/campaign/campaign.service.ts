@@ -1,8 +1,8 @@
-import httpClient from '../lib/httpClient';
+import httpClient from '../../lib/httpClient'
 
 export async function getMyCampaigns(profileId) {
   const response = await httpClient.get(
     `/campaign/my-campaigns?profileId=${profileId}`,
-  );
-  return response.data.content;
+  )
+  return response.data.content
 }

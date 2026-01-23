@@ -15,7 +15,7 @@ import { Title, GoBack, GoBackText } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { createDependentProfile } from '../../services/userService';
+import { createDependentProfile } from '../../services/user/user.service';
 
 function AddDependent() {
   const navigation = useNavigation();
