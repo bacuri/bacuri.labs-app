@@ -4,7 +4,7 @@ import httpClient from '../../lib/httpClient'
 
 const { clientId, secret } = getEnvVars()
 
-export async function login(email, password) {
+export async function login(email: string, password: string) {
   const data = {
     grant_type: 'password',
     username: email,
@@ -22,7 +22,7 @@ export async function login(email, password) {
   return response.data.access_token
 }
 
-export async function register(userData) {
+export async function register(userData: any) {
   const response = await httpClient.post('/register', userData)
   return response.data
 }

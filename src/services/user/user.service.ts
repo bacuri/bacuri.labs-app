@@ -5,7 +5,7 @@ export async function getUser() {
   return response.data
 }
 
-export async function createDependentProfile(profileData) {
+export async function createDependentProfile(profileData: any) {
   const response = await httpClient.post('/dependent-profile', profileData)
   return response.data
 }
