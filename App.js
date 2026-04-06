@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
-import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
+import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto'; // eslint-disable-line camelcase
 import { colors } from './src/styles';
 import { AuthProvider } from './src/contexts/auth';
 import Routes from './src/routes';
