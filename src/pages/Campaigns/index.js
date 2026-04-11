@@ -48,9 +48,11 @@ const Campaigns = () => {
   return (
     <CampaignList
       data={campaignsList}
-      keyExtractor={(item) => item.id}
+      keyExtractor={item => item.id}
       renderItem={({ item }) => (
-        <CampaignCard onPress={() => navigation.navigate('CampaignDetail', { ...item })}>
+        <CampaignCard
+          onPress={() => navigation.navigate('CampaignDetail', { ...item })}
+        >
           <View>
             <CampaignCardTitle>{item.title}</CampaignCardTitle>
             <CampaignCardDescription>

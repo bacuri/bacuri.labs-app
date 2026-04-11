@@ -23,9 +23,9 @@ function CampaignDetail() {
   const { title, description, image, places } = route.params;
 
   const remainingVaccines = () => {
-    const totalVaccines = places.reduce((acc, el) => (acc += el.amount), 0);
+    const totalVaccines = places.reduce((acc, el) => acc + el.amount, 0);
 
-    const totalApplied = places.reduce((acc, el) => (acc += el.applied), 0);
+    const totalApplied = places.reduce((acc, el) => acc + el.applied, 0);
 
     return totalVaccines - totalApplied;
   };
