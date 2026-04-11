@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import useSWR from 'swr';
 
 import { VaccineList, Error, Loading } from './styles';
 
@@ -15,27 +15,11 @@ function MyVaccines() {
 
   const { id } = route.params;
 
-  const [vaccineList, setVaccineList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const { data, error, isLoading } = useSWR(['vaccineTimeline', id], () => getVaccineTimeline(id));
+  const vaccineList = data || [];
+  const errorMessage = error ? t('myVaccines.errorMessage') : null;
 
-  useEffect(() => {
-    const getVaccines = async () => {
-      try {
-        const vaccines = await getVaccineTimeline(id);
-
-        setVaccineList(vaccines);
-      } catch (err) {
-        setErrorMessage(t('myVaccines.errorMessage'));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getVaccines();
-  }, []);
-
-  if (loading)
+  if (isLoading)
     return (
       <Container center>
         <Loading />

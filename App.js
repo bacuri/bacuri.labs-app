@@ -8,6 +8,8 @@ import { AuthProvider } from './src/contexts/auth';
 import Routes from './src/routes';
 import { setupAxiosMocks } from './src/mocks/axiosMock';
 import './src/i18n';
+import httpClient from './src/lib/httpClient';
+import { SWRConfig } from 'swr'
 
 const MyTheme = {
   ...DefaultTheme,
@@ -22,6 +24,8 @@ if (__DEV__) {
 }
 
 SplashScreen.preventAutoHideAsync();
+
+const fetcher = url => httpClient.get(url).then(res => res.data)
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -39,11 +43,13 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer theme={MyTheme}>
-      <StatusBar />
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
-    </NavigationContainer>
+    <SWRConfig value={{ fetcher }}>
+      <NavigationContainer theme={MyTheme}>
+        <StatusBar />
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </NavigationContainer>
+    </SWRConfig>
   );
 }
