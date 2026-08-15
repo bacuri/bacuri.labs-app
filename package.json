@@ -44,6 +44,7 @@
     "react-native-web": "^0.21.0",
     "react-native-worklets": "0.5.1",
     "styled-components": "^6.1.19",
+    "swr": "^2.5.1",
     "yup": "^0.32.0"
   },
   "devDependencies": {
