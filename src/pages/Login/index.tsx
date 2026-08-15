@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Keyboard, TextInput } from 'react-native';
+import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
@@ -77,11 +78,11 @@ function Login() {
 
     try {
       await login(email, password);
-    } catch (err: any) {
-      const { error } = err.response.data;
-
-      if (error === 'invalid_grant')
-        setError('general', { message: t('validation.invalidCredentials') });
+    } catch (err) {
+      if (axios.isAxiosError<{ error?: string }>(err)) {
+        if (err.response?.data.error === 'invalid_grant')
+          setError('general', { message: t('validation.invalidCredentials') });
+      }
     }
   };
 
