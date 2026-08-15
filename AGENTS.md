@@ -24,11 +24,28 @@ map. Uses a backend API via Axios.
 - `yarn start` — start Expo dev server
 - `yarn lint` — run ESLint (`eslint . --ext .js,.jsx,.ts,.tsx`)
 - `npx tsc --noEmit` — typecheck (tsconfig exists, but no script is defined)
+- `yarn test` / `yarn test:watch` — run Jest (jest-expo preset)
 - `yarn ios` / `yarn android` — run on device/simulator
 - `yarn web` — start web build
 
-There is no test suite. TypeScript is compiled through the bundler; use
-`npx tsc --noEmit` to typecheck.
+## Testing
+
+- Jest + jest-expo preset, `@testing-library/react-native` for component/page
+  tests. No test suite existed before; tests live next to source as
+  `*.test.ts(x)`.
+- Test infra lives in `jest/` (`setup.ts`, `svgMock.ts`, `environmentMock.ts`).
+  `jest/setup.ts` mocks `react-i18next` (`t` returns the key) and
+  `@react-native-async-storage/async-storage` uses its official Jest mock
+  (wired via `moduleNameMapper`).
+- `environment.ts` is gitignored; tests resolve it via `moduleNameMapper`
+  (`environment$` → `jest/environmentMock.ts`).
+- Service/page tests should mock the service module (or `src/lib/httpClient`),
+  not SWR, so SWR loading/error paths are exercised.
+- Form pages (Formik + Yup) will be rewritten to Zod in a separate branch;
+  their tests come after that migration. Do not write Formik/Yup-coupled tests
+  for `Login`, `SignUp`, `AddDependent` yet.
+- Run `npx tsc --noEmit` and `yarn lint` alongside `yarn test`; test files must
+  satisfy `strict` + `noUncheckedIndexedAccess`.
 
 ## Conventions
 
