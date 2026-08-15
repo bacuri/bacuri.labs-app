@@ -29,8 +29,8 @@ export const Description = styled.Text`
 `;
 
 export const NumberCard = styled.View<{ row?: boolean | undefined }>`
-  flex-direction: ${props => (props.row ? 'row' : 'column')};
-  justify-content: ${props => (props.row ? 'space-between' : 'center')};
+  flex-direction: ${(props) => (props.row ? 'row' : 'column')};
+  justify-content: ${(props) => (props.row ? 'space-between' : 'center')};
   background-color: #f9a61a;
   padding-vertical: 10px;
   padding-horizontal: 5px;

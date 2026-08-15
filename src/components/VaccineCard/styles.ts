@@ -14,7 +14,7 @@ export const CardHeader = styled.View`
 `;
 
 export const Badge = styled.View<{ color?: string | undefined }>`
-  background-color: ${props => (props.color ? props.color : 'green')};
+  background-color: ${(props) => (props.color ? props.color : 'green')};
   border-radius: 5px;
   padding: 2px;
   aspect-ratio: 1;
@@ -60,7 +60,7 @@ export const Details = styled.View`
 export const Ball = styled.View<{ color?: boolean | undefined }>`
   width: 20px;
   height: 20px;
-  background: ${props => (props.color ? 'green' : '#a83f39')};
+  background: ${(props) => (props.color ? 'green' : '#a83f39')};
   border-radius: 5px;
   margin-left: 3px;
   margin-bottom: 3px;

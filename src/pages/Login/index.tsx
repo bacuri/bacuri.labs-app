@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import type { FormikHelpers } from 'formik';
 import { Container, Input, ErrorMessage } from '../../components/GlobalStyles';
 import {
   Header,
@@ -22,7 +23,6 @@ import Edge from '../../assets/canto.svg';
 import { useAuth } from '../../contexts/auth';
 
 import type { NavigationProp } from '../../@types/navigation';
-import type { FormikHelpers } from 'formik';
 
 interface LoginValues {
   email: string;

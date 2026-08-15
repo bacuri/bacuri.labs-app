@@ -1,28 +1,28 @@
-import { encode } from 'base-64'
-import getEnvVars from '../../../environment'
-import httpClient from '../../lib/httpClient'
+import { encode } from 'base-64';
+import getEnvVars from '../../../environment';
+import httpClient from '../../lib/httpClient';
 
-const { clientId, secret } = getEnvVars()
+const { clientId, secret } = getEnvVars();
 
 export async function login(email: string, password: string): Promise<string> {
   const data = {
     grant_type: 'password',
     username: email,
     password,
-  }
+  };
 
-  const clientToken = encode(`${clientId}:${secret}`)
+  const clientToken = encode(`${clientId}:${secret}`);
 
   const response = await httpClient.post('/oauth/token', data, {
     headers: {
       Authorization: `Basic ${clientToken}`,
     },
-  })
+  });
 
-  return response.data.access_token
+  return response.data.access_token;
 }
 
 export async function register(userData: any): Promise<unknown> {
-  const response = await httpClient.post('/register', userData)
-  return response.data
+  const response = await httpClient.post('/register', userData);
+  return response.data;
 }

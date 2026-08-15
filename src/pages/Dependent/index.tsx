@@ -27,7 +27,7 @@ function Dependent() {
 
   useLayoutEffect(() => {
     navigation.setOptions({ headerTitle: name } as never);
-  }, [navigation, route]);
+  }, [navigation, route, name]);
 
   return (
     <Background>

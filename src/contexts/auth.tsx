@@ -1,4 +1,11 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { ReactNode } from 'react';
 
@@ -13,7 +20,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,27 +37,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadStorageData();
   }, []);
 
-  async function login(email: string, password: string) {
+  const login = useCallback(async (email: string, password: string) => {
     const accessToken = await authLogin(email, password);
     setToken(accessToken);
 
     httpClient.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     await AsyncStorage.setItem('@BacuriLabs:token', accessToken);
-  }
+  }, []);
 
-  async function logout() {
+  const logout = useCallback(async () => {
     setToken(null);
 
     await AsyncStorage.removeItem('@BacuriLabs:token');
-  }
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{ signed: !!token, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({ signed: !!token, login, logout }),
+    [token, login, logout],
   );
-};
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
 export function useAuth() {
   const context = useContext(AuthContext);

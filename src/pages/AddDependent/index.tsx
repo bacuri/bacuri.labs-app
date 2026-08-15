@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
 import { Picker } from '@react-native-picker/picker';
 import { useTranslation } from 'react-i18next';
+import type { FormikHelpers } from 'formik';
 import {
   Container,
   ErrorMessage,
@@ -19,7 +20,6 @@ import Button from '../../components/Button';
 import { createDependentProfile } from '../../services/user/user.service';
 
 import type { NavigationProp } from '../../@types/navigation';
-import type { FormikHelpers } from 'formik';
 
 interface AddDependentValues {
   name: string;
@@ -166,7 +166,7 @@ function AddDependent() {
           <Select
             mode="dropdown"
             selectedValue={values.gender}
-            onValueChange={itemValue => setFieldValue('gender', itemValue)}
+            onValueChange={(itemValue) => setFieldValue('gender', itemValue)}
             onBlur={handleBlur('gender')}
             dropdownIconColor="#FFFFFF"
           >

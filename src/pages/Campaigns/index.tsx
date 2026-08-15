@@ -15,7 +15,7 @@ import {
 import type { NavigationProp, RouteProps } from '../../@types/navigation';
 import type { Campaign } from '../../@types/models';
 
-const Campaigns = () => {
+function Campaigns() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteProps<'Campaigns'>>();
 
@@ -24,7 +24,11 @@ const Campaigns = () => {
   const { data, isLoading } = useSWR<Campaign[]>(
     ['campaigns', id],
     () => getMyCampaigns(id),
-    { onError: err => console.log(err) },
+    {
+      onError: (err) => {
+        console.log(err); // eslint-disable-line no-console
+      },
+    },
   );
   const campaignsList = data || [];
 
@@ -39,7 +43,7 @@ const Campaigns = () => {
   return (
     <CampaignList
       data={campaignsList}
-      keyExtractor={item => String((item as Campaign).id)}
+      keyExtractor={(item) => String((item as Campaign).id)}
       renderItem={({ item }) => {
         const campaign = item as Campaign;
 
@@ -61,6 +65,6 @@ const Campaigns = () => {
       }}
     />
   );
-};
+}
 
 export default Campaigns;

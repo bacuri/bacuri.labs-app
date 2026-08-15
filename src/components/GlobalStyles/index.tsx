@@ -9,14 +9,14 @@ export const Container = styled(SafeAreaView)<{
   flex: 1;
   padding: 20px;
 
-  ${props =>
+  ${(props) =>
     props.center &&
     `
     align-Items: center;
     justify-Content: center;
   `}
 
-  ${props =>
+  ${(props) =>
     props.spaceBetween &&
     `
     justify-Content: space-between;

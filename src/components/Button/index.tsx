@@ -12,7 +12,7 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const Button = (props: ButtonProps) => {
+function Button(props: ButtonProps) {
   const {
     children,
     onPress,
@@ -36,6 +36,6 @@ const Button = (props: ButtonProps) => {
       )}
     </ButtonBody>
   );
-};
+}
 
 export default Button;

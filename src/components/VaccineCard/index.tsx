@@ -74,9 +74,12 @@ function VaccineCard({ item }: VaccineCardProps) {
     };
 
     setNumberDoses(getNextVaccines(nextVaccine));
-  }, []);
+  }, [nextVaccine]);
 
-  const formatAgeRange = (initialRangeValue: number, finalRangeValue: number) => {
+  const formatAgeRange = (
+    initialRangeValue: number,
+    finalRangeValue: number,
+  ) => {
     if (initialRangeValue === 0) {
       return t('vaccineCard.atBirth');
     }
@@ -160,7 +163,7 @@ function VaccineCard({ item }: VaccineCardProps) {
               {t('vaccineCard.observation', { observation })}
             </CardDescription>
           )}
-          <CollapseButton onPress={() => setCollapse(prevOpen => !prevOpen)}>
+          <CollapseButton onPress={() => setCollapse((prevOpen) => !prevOpen)}>
             <MaterialCommunityIcons
               name={!collapse ? 'chevron-double-down' : 'chevron-double-up'}
               color="white"

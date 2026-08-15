@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
 import { Picker } from '@react-native-picker/picker';
 import { useTranslation } from 'react-i18next';
+import type { FormikHelpers } from 'formik';
 import { ErrorMessage, Label, Select } from '../../components/GlobalStyles';
 import {
   Title,
@@ -23,7 +24,6 @@ import { useAuth } from '../../contexts/auth';
 import { register } from '../../services/auth/auth.service';
 
 import type { NavigationProp } from '../../@types/navigation';
-import type { FormikHelpers } from 'formik';
 
 interface SignUpValues {
   name: string;
@@ -217,7 +217,7 @@ function SignUp() {
       <Label>{t('signup.genderLabel')}</Label>
       <Select
         selectedValue={values.gender}
-        onValueChange={itemValue => setFieldValue('gender', itemValue)}
+        onValueChange={(itemValue) => setFieldValue('gender', itemValue)}
         onBlur={handleBlur('gender')}
       >
         <Picker.Item label={t('signup.genderMale')} value="MALE" />

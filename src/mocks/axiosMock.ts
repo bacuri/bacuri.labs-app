@@ -4,7 +4,7 @@ import api from '../lib/httpClient';
 export function setupAxiosMocks() {
   const mock = new MockAdapter(api, { delayResponse: 500 });
 
-  mock.onPost('/oauth/token').reply(config => {
+  mock.onPost('/oauth/token').reply((config) => {
     const { username, password } = config.data;
     if (username === 'error@error.com' && password === '123456') {
       return [401, { error: 'Invalid credentials' }];
@@ -12,7 +12,7 @@ export function setupAxiosMocks() {
     return [200, { access_token: 'mocked-jwt-token' }];
   });
 
-  mock.onPost('/register').reply(user => {
+  mock.onPost('/register').reply((user) => {
     return [200, user.data];
   });
 
@@ -67,7 +67,7 @@ export function setupAxiosMocks() {
     ],
   });
 
-  mock.onPost('/dependent-profile').reply(dependent => {
+  mock.onPost('/dependent-profile').reply((dependent) => {
     return [200, dependent.data];
   });
 }

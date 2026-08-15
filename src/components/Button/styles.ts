@@ -6,7 +6,7 @@ export const ButtonBody = styled(RectButton)<{
   color?: string | undefined;
 }>`
   width: 100%;
-  background-color: ${props =>
+  background-color: ${(props) =>
     !props.enabled ? '#ddd' : props.color || '#FBFBFB'};
   align-items: center;
   justify-content: center;

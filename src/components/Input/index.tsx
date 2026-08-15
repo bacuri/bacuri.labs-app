@@ -10,10 +10,7 @@ interface InputProps extends TextInputProps {
   options?: Record<string, unknown>;
 }
 
-function Input(
-  { masked, error, ...props }: InputProps,
-  ref: any,
-) {
+function Input({ masked, error, ...props }: InputProps, ref: any) {
   const Component = (!masked ? InputNormal : InputMask) as ComponentType<any>;
 
   /* eslint-disable-next-line react/jsx-props-no-spreading */

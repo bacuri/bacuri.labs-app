@@ -10,7 +10,7 @@ import { Map } from './styles';
 
 import type { RouteProps } from '../../@types/navigation';
 
-const CampaignMap = () => {
+function CampaignMap() {
   const route = useRoute<RouteProps<'CampaignMap'>>();
   const { t } = useTranslation();
 
@@ -39,7 +39,7 @@ const CampaignMap = () => {
     }
 
     loadPosition();
-  }, []);
+  }, [t]);
 
   if (initialPosition[0] === 0) {
     return (
@@ -58,7 +58,7 @@ const CampaignMap = () => {
         longitudeDelta: 0.014,
       }}
     >
-      {places.map(point => (
+      {places.map((point) => (
         <Marker
           key={String(point.id)}
           coordinate={{
@@ -71,6 +71,6 @@ const CampaignMap = () => {
       ))}
     </Map>
   );
-};
+}
 
 export default CampaignMap;

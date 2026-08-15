@@ -36,7 +36,7 @@ function ApplyVaccine() {
         t('applyVaccine.successTitle'),
         t('applyVaccine.successMessage'),
       );
-    } catch (err) {
+    } catch {
       Alert.alert(t('applyVaccine.errorTitle'), t('applyVaccine.errorMessage'));
     } finally {
       navigation.goBack();

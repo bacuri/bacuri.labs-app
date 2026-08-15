@@ -28,12 +28,12 @@ export const ProfileCardImage = styled.View<{
   transparent?: boolean | undefined;
 }>`
   aspect-ratio: 1;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.empty || props.transparent ? 'transparent' : '#f2f2f2'};
   border-radius: 24px;
   align-items: center;
   justify-content: center;
-  border-width: ${props => (props.transparent ? '5px' : '0px')};
+  border-width: ${(props) => (props.transparent ? '5px' : '0px')};
   border-color: white;
   overflow: hidden;
 `;

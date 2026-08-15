@@ -40,10 +40,50 @@ interface ProfileCardItem {
   addButton?: boolean;
 }
 
+function ErrorPage({ onRetry }: { onRetry: () => void }) {
+  const { t } = useTranslation();
+
+  return (
+    <View>
+      <Text>{t('profileList.errorTitle')}</Text>
+
+      <Text>{t('profileList.errorSubtitle')}</Text>
+      <TouchableOpacity onPress={onRetry}>
+        <Text>{t('profileList.reloadButton')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function LogoutButton() {
+  const { logout } = useAuth();
+  const { t } = useTranslation();
+
+  return (
+    <Logout onPress={logout}>
+      <LogoutText>{t('profileList.logout')}</LogoutText>
+    </Logout>
+  );
+}
+
+function createRows(items: ProfileCardItem[], columns: number) {
+  const rows = Math.floor(items.length / columns);
+  let lastRowElements = items.length - rows * columns;
+
+  while (lastRowElements !== columns) {
+    items.push({
+      id: `empty-${lastRowElements}`,
+      name: `empty-${lastRowElements}`,
+      empty: true,
+    });
+    lastRowElements += 1;
+  }
+  return items;
+}
+
 function ProfileList() {
   const navigation = useNavigation<NavigationProp>();
   const isFocused = useIsFocused();
-  const { logout } = useAuth();
   const { t } = useTranslation();
 
   const { data, error, isLoading, mutate } = useSWR<UserResponse>(
@@ -57,32 +97,6 @@ function ProfileList() {
       mutate();
     }
   }, [isFocused, mutate]);
-
-  const ErrorPage = () => (
-    <View>
-      <Text>{t('profileList.errorTitle')}</Text>
-
-      <Text>{t('profileList.errorSubtitle')}</Text>
-      <TouchableOpacity onPress={() => mutate()}>
-        <Text>{t('profileList.reloadButton')}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  function createRows(data: ProfileCardItem[], columns: number) {
-    const rows = Math.floor(data.length / columns);
-    let lastRowElements = data.length - rows * columns;
-
-    while (lastRowElements !== columns) {
-      data.push({
-        id: `empty-${lastRowElements}`,
-        name: `empty-${lastRowElements}`,
-        empty: true,
-      });
-      lastRowElements += 1;
-    }
-    return data;
-  }
 
   const renderItem = ({ item }: { item: ProfileCardItem }) => (
     <ProfileCard
@@ -113,12 +127,6 @@ function ProfileList() {
     </ProfileCard>
   );
 
-  const RightSideComponent = () => (
-    <Logout onPress={logout}>
-      <LogoutText>{t('profileList.logout')}</LogoutText>
-    </Logout>
-  );
-
   const columns = 3;
 
   if (isLoading)
@@ -130,10 +138,10 @@ function ProfileList() {
 
   return (
     <Container>
-      <Header RightSide={RightSideComponent} />
+      <Header RightSide={LogoutButton} />
 
       {error ? (
-        <ErrorPage />
+        <ErrorPage onRetry={() => mutate()} />
       ) : (
         <>
           <Title>{t('profileList.selectProfile')}</Title>
