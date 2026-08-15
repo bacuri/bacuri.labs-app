@@ -66,11 +66,11 @@ function LogoutButton() {
   );
 }
 
-function createRows(items: ProfileCardItem[], columns: number) {
+export function createRows(items: ProfileCardItem[], columns: number) {
   const rows = Math.floor(items.length / columns);
   let lastRowElements = items.length - rows * columns;
 
-  while (lastRowElements !== columns) {
+  while (lastRowElements !== columns && lastRowElements !== 0) {
     items.push({
       id: `empty-${lastRowElements}`,
       name: `empty-${lastRowElements}`,

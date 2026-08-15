@@ -16,3 +16,6 @@ environment.ts
 
 # local backlog
 BACKLOG.local.md
+
+# tests
+coverage/

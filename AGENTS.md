@@ -15,7 +15,7 @@ map. Uses a backend API via Axios.
 - styled-components for styling
 - SWR for data fetching
 - i18next (pt-BR + en-US)
-- Formik + Yup for forms
+- React Hook Form + Zod (zodResolver) for forms
 - Axios for HTTP (single shared instance)
 - State managed via React Context
 
@@ -24,11 +24,29 @@ map. Uses a backend API via Axios.
 - `yarn start` — start Expo dev server
 - `yarn lint` — run ESLint (`eslint . --ext .js,.jsx,.ts,.tsx`)
 - `npx tsc --noEmit` — typecheck (tsconfig exists, but no script is defined)
+- `yarn test` / `yarn test:watch` — run Jest (jest-expo preset)
 - `yarn ios` / `yarn android` — run on device/simulator
 - `yarn web` — start web build
 
-There is no test suite. TypeScript is compiled through the bundler; use
-`npx tsc --noEmit` to typecheck.
+## Testing
+
+- Jest + jest-expo preset, `@testing-library/react-native` for component/page
+  tests. No test suite existed before; tests live next to source as
+  `*.test.ts(x)`.
+- Test infra lives in `jest/` (`setup.ts`, `svgMock.ts`, `environmentMock.ts`).
+  `jest/setup.ts` mocks `react-i18next` (`t` returns the key) and
+  `@react-native-async-storage/async-storage` uses its official Jest mock
+  (wired via `moduleNameMapper`).
+- `environment.ts` is gitignored; tests resolve it via `moduleNameMapper`
+  (`environment$` → `jest/environmentMock.ts`).
+- Service/page tests should mock the service module (or `src/lib/httpClient`),
+  not SWR, so SWR loading/error paths are exercised.
+- Form pages use `react-hook-form` `Controller` + `zodResolver`; their tests
+  render the page and drive the inputs with RNTL `fireEvent` (changeText/blur),
+  asserting validation messages (i18n keys) and that submit calls the mocked
+  service/context functions.
+- Run `npx tsc --noEmit` and `yarn lint` alongside `yarn test`; test files must
+  satisfy `strict` + `noUncheckedIndexedAccess`.
 
 ## Conventions
 
@@ -46,7 +64,7 @@ There is no test suite. TypeScript is compiled through the bundler; use
   SWR hooks to consume them.
 - All user-facing strings must use i18n keys via `useTranslation()` and live in
   `src/i18n/locales/{en-US,pt-BR}/translation.json`. Keep both locales in sync.
-- Forms use Formik + Yup, with validation messages from i18n keys.
+- Forms use React Hook Form + Zod, with validation messages from i18n keys.
 - Authentication state lives in `src/contexts/auth.tsx`; the Axios instance
   keeps the Bearer token in its default headers.
 - Imports follow the pattern: react, third-party libs, local modules, then assets.
