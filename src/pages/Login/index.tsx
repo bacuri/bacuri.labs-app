@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Keyboard, TextInput } from 'react-native';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
 import { z } from 'zod';
@@ -56,7 +56,7 @@ function Login() {
   }, []);
 
   const {
-    register,
+    control,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting, isValid, touchedFields },
@@ -85,9 +85,6 @@ function Login() {
     }
   };
 
-  const emailField = register('email');
-  const passwordField = register('password');
-
   return (
     <Container>
       <Edge
@@ -101,28 +98,38 @@ function Login() {
 
       {errors.general && <ErrorMessage>{errors.general.message}</ErrorMessage>}
 
-      <Input
-        placeholder={t('login.emailPlaceholder')}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        onChange={emailField.onChange}
-        onBlur={emailField.onBlur}
-        ref={emailField.ref}
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder={t('login.emailPlaceholder')}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+          />
+        )}
       />
       {touchedFields.email && errors.email && (
         <ErrorMessage>{errors.email.message}</ErrorMessage>
       )}
-      <Input
-        placeholder={t('login.passwordPlaceholder')}
-        secureTextEntry
-        autoCapitalize="none"
-        onChange={passwordField.onChange}
-        onBlur={passwordField.onBlur}
-        ref={(el: any) => {
-          passwordRef.current = el;
-          passwordField.ref(el);
-        }}
-        onSubmitEditing={() => handleSubmit(handleLogin)()}
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder={t('login.passwordPlaceholder')}
+            secureTextEntry
+            autoCapitalize="none"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            ref={passwordRef}
+            onSubmitEditing={() => handleSubmit(handleLogin)()}
+          />
+        )}
       />
       {touchedFields.password && errors.password && (
         <ErrorMessage>{errors.password.message}</ErrorMessage>

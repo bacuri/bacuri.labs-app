@@ -48,7 +48,6 @@ function AddDependent() {
   const cpfRef = useRef<any>(null);
 
   const {
-    register,
     handleSubmit,
     control,
     setError,
@@ -95,8 +94,6 @@ function AddDependent() {
     }
   };
 
-  const nameField = register('name');
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -107,15 +104,23 @@ function AddDependent() {
           <Title>{t('addDependent.title')}</Title>
 
           <Label>{t('addDependent.nameLabel')}</Label>
-          <Input
-            placeholder={t('addDependent.namePlaceholder')}
-            onChange={nameField.onChange}
-            onBlur={nameField.onBlur}
-            ref={nameField.ref}
-            autoCapitalize="words"
-            returnKeyType="next"
-            onSubmitEditing={() => birthDateRef.current?.getElement().focus()}
-            blurOnSubmit={false}
+          <Controller
+            control={control}
+            name="name"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                placeholder={t('addDependent.namePlaceholder')}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                autoCapitalize="words"
+                returnKeyType="next"
+                onSubmitEditing={() =>
+                  birthDateRef.current?.getElement().focus()
+                }
+                blurOnSubmit={false}
+              />
+            )}
           />
           {touchedFields.name && errors.name && (
             <ErrorMessage>{errors.name.message}</ErrorMessage>

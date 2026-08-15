@@ -83,9 +83,8 @@ function SignUp() {
   }, []);
 
   const {
-    register,
-    handleSubmit,
     control,
+    handleSubmit,
     setError,
     formState: { errors, isSubmitting, touchedFields },
   } = useForm<SignUpValues>({
@@ -136,11 +135,6 @@ function SignUp() {
     }
   };
 
-  const nameField = register('name');
-  const emailField = register('email');
-  const passwordField = register('password');
-  const confirmPasswordField = register('confirm_password');
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -149,33 +143,43 @@ function SignUp() {
       <Title>{t('signup.title')}</Title>
 
       <Label>{t('signup.nameLabel')}</Label>
-      <Input
-        placeholder={t('signup.namePlaceholder')}
-        onChange={nameField.onChange}
-        onBlur={nameField.onBlur}
-        ref={nameField.ref}
-        returnKeyType="next"
-        onSubmitEditing={() => emailRef.current?.focus()}
-        blurOnSubmit={false}
+      <Controller
+        control={control}
+        name="name"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder={t('signup.namePlaceholder')}
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            returnKeyType="next"
+            onSubmitEditing={() => emailRef.current?.focus()}
+            blurOnSubmit={false}
+          />
+        )}
       />
       {touchedFields.name && errors.name && (
         <ErrorMessage>{errors.name.message}</ErrorMessage>
       )}
 
       <Label>{t('signup.emailLabel')}</Label>
-      <Input
-        placeholder={t('signup.emailPlaceholder')}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        onChange={emailField.onChange}
-        onBlur={emailField.onBlur}
-        ref={(el: any) => {
-          emailRef.current = el;
-          emailField.ref(el);
-        }}
-        returnKeyType="next"
-        onSubmitEditing={() => birthDateRef.current?.focus()}
-        blurOnSubmit={false}
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder={t('signup.emailPlaceholder')}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            ref={emailRef}
+            returnKeyType="next"
+            onSubmitEditing={() => birthDateRef.current?.focus()}
+            blurOnSubmit={false}
+          />
+        )}
       />
       {touchedFields.email && errors.email && (
         <ErrorMessage>{errors.email.message}</ErrorMessage>
@@ -252,33 +256,41 @@ function SignUp() {
       )}
 
       <Label>{t('signup.passwordLabel')}</Label>
-      <Input
-        placeholder={t('signup.passwordPlaceholder')}
-        secureTextEntry
-        onChange={passwordField.onChange}
-        onBlur={passwordField.onBlur}
-        ref={(el: any) => {
-          passwordRef.current = el;
-          passwordField.ref(el);
-        }}
-        returnKeyType="next"
-        onSubmitEditing={() => confirmPasswordRef.current?.focus()}
-        blurOnSubmit={false}
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder={t('signup.passwordPlaceholder')}
+            secureTextEntry
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            ref={passwordRef}
+            returnKeyType="next"
+            onSubmitEditing={() => confirmPasswordRef.current?.focus()}
+            blurOnSubmit={false}
+          />
+        )}
       />
       {touchedFields.password && errors.password && (
         <ErrorMessage>{errors.password.message}</ErrorMessage>
       )}
 
       <Label>{t('signup.confirmPasswordLabel')}</Label>
-      <Input
-        placeholder={t('signup.confirmPasswordPlaceholder')}
-        secureTextEntry
-        onChange={confirmPasswordField.onChange}
-        onBlur={confirmPasswordField.onBlur}
-        ref={(el: any) => {
-          confirmPasswordRef.current = el;
-          confirmPasswordField.ref(el);
-        }}
+      <Controller
+        control={control}
+        name="confirm_password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder={t('signup.confirmPasswordPlaceholder')}
+            secureTextEntry
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            ref={confirmPasswordRef}
+          />
+        )}
       />
       {touchedFields.confirm_password && errors.confirm_password && (
         <ErrorMessage>{errors.confirm_password.message}</ErrorMessage>
