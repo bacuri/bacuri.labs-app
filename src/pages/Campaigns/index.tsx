@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import useSWR from 'swr';
 import { getMyCampaigns } from '../../services/campaign/campaign.service';
 
 import { Container } from '../../components/GlobalStyles';
@@ -21,26 +21,14 @@ const Campaigns = () => {
 
   const { id } = route.params;
 
-  const [campaignsList, setCampaignsList] = useState<Campaign[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = useSWR<Campaign[]>(
+    ['campaigns', id],
+    () => getMyCampaigns(id),
+    { onError: err => console.log(err) },
+  );
+  const campaignsList = data || [];
 
-  useEffect(() => {
-    const getCampaigns = async () => {
-      try {
-        const campaigns = await getMyCampaigns(id);
-
-        setCampaignsList(campaigns);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getCampaigns();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <Container center>
         <ActivityIndicator size="large" color="#fff" />

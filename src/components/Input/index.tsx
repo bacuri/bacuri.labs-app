@@ -16,6 +16,7 @@ function Input(
 ) {
   const Component = (!masked ? InputNormal : InputMask) as ComponentType<any>;
 
+  /* eslint-disable-next-line react/jsx-props-no-spreading */
   return <Component error={error} ref={ref} {...props} />;
 }
 

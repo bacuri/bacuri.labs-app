@@ -146,6 +146,7 @@ function VaccineCard({ item }: VaccineCardProps) {
         <Details>
           {[...Array(numberDoses.numberVaccines)].map((e, index) => (
             <Ball
+              // eslint-disable-next-line react/no-array-index-key
               key={String(index)}
               color={numberDoses.numberAppliedVaccines > index + 1}
             />

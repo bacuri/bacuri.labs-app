@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   FlatList,
   ActivityIndicator,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import useSWR from 'swr';
 
 import { Container } from '../../components/GlobalStyles';
 import {
@@ -28,6 +29,7 @@ import { useAuth } from '../../contexts/auth';
 import { getUser } from '../../services/user/user.service';
 
 import type { NavigationProp } from '../../@types/navigation';
+import type { UserResponse } from '../../services/user/user.service';
 
 interface ProfileCardItem {
   id?: number | string;
@@ -44,34 +46,24 @@ function ProfileList() {
   const { logout } = useAuth();
   const { t } = useTranslation();
 
-  const [profiles, setProfiles] = useState<ProfileCardItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { data, error, isLoading, mutate } = useSWR<UserResponse>(
+    'user',
+    getUser,
+  );
+  const profiles = data?.content?.dependentProfiles || [];
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const data = await getUser();
-        const { dependentProfiles } = data.content;
-
-        setProfiles(dependentProfiles);
-        setError(false);
-      } catch (err) {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getUserInfo();
-  }, [isFocused]);
+    if (isFocused) {
+      mutate();
+    }
+  }, [isFocused, mutate]);
 
   const ErrorPage = () => (
     <View>
       <Text>{t('profileList.errorTitle')}</Text>
 
       <Text>{t('profileList.errorSubtitle')}</Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => mutate()}>
         <Text>{t('profileList.reloadButton')}</Text>
       </TouchableOpacity>
     </View>
@@ -129,7 +121,7 @@ function ProfileList() {
 
   const columns = 3;
 
-  if (loading)
+  if (isLoading)
     return (
       <Container center>
         <ActivityIndicator size="large" color="#fff" />
