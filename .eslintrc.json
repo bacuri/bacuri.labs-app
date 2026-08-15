@@ -6,40 +6,77 @@
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
     "airbnb",
-    "prettier/@typescript-eslint",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
   "globals": {
     "__DEV__": "readonly"
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "prettier"
-  ],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+      }
+    }
+  },
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [
-          ".js"
-        ]
+        "extensions": [".js", ".tsx"]
       }
     ],
     "import/prefer-default-export": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "no-unused-expressions": "off",
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "react/jsx-curly-newline": "off"
-  }
+    "react/require-default-props": "off",
+    "react/jsx-curly-newline": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false
+      }
+    ],
+    "no-use-before-define": "off",
+    "no-undef": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "func-names": "off"
+      }
+    }
+  ]
 }
