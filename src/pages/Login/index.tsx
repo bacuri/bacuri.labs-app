@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { Keyboard, TextInput } from 'react-native';
-import { useFormik } from 'formik';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
-import * as yup from 'yup';
+import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
-import type { FormikHelpers } from 'formik';
 import { Container, Input, ErrorMessage } from '../../components/GlobalStyles';
 import {
   Header,
@@ -35,15 +35,16 @@ function Login() {
   const navigation = useNavigation<NavigationProp>();
   const { login } = useAuth();
 
-  const loginSchema = yup.object({
-    email: yup
+  const loginSchema = z.object({
+    email: z
       .string()
-      .email(t('validation.emailInvalid'))
-      .required(t('validation.emailRequired')),
-    password: yup
+      .min(1, t('validation.emailRequired'))
+      .email(t('validation.emailInvalid')),
+    password: z
       .string()
-      .min(6, t('validation.passwordMin'))
-      .required(t('validation.passwordRequired')),
+      .min(1, t('validation.passwordRequired'))
+      .min(6, t('validation.passwordMin')),
+    general: z.string(),
   });
 
   const passwordRef = useRef<TextInput>(null);
@@ -54,10 +55,22 @@ function Login() {
     });
   }, []);
 
-  const handleLogin = async (
-    values: LoginValues,
-    actions: FormikHelpers<LoginValues>,
-  ) => {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting, isValid, touchedFields },
+  } = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      general: '',
+    },
+    mode: 'onChange',
+  });
+
+  const handleLogin = async (values: LoginValues) => {
     Keyboard.dismiss();
 
     const { email, password } = values;
@@ -68,30 +81,12 @@ function Login() {
       const { error } = err.response.data;
 
       if (error === 'invalid_grant')
-        actions.setFieldError('general', t('validation.invalidCredentials'));
-
-      actions.setSubmitting(false);
+        setError('general', { message: t('validation.invalidCredentials') });
     }
   };
 
-  const {
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    isSubmitting,
-    isValid,
-    values,
-    errors,
-    touched,
-  } = useFormik<LoginValues>({
-    initialValues: {
-      email: '',
-      password: '',
-      general: '',
-    },
-    validationSchema: loginSchema,
-    onSubmit: handleLogin,
-  });
+  const emailField = register('email');
+  const passwordField = register('password');
 
   return (
     <Container>
@@ -104,31 +99,33 @@ function Login() {
         <Logo width="94" height="150" />
       </Header>
 
-      {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
+      {errors.general && <ErrorMessage>{errors.general.message}</ErrorMessage>}
 
       <Input
         placeholder={t('login.emailPlaceholder')}
         keyboardType="email-address"
         autoCapitalize="none"
-        onChangeText={handleChange('email')}
-        onBlur={handleBlur('email')}
-        value={values.email}
+        onChange={emailField.onChange}
+        onBlur={emailField.onBlur}
+        ref={emailField.ref}
       />
-      {touched.email && errors.email && (
-        <ErrorMessage>{errors.email}</ErrorMessage>
+      {touchedFields.email && errors.email && (
+        <ErrorMessage>{errors.email.message}</ErrorMessage>
       )}
       <Input
         placeholder={t('login.passwordPlaceholder')}
         secureTextEntry
-        ref={passwordRef}
         autoCapitalize="none"
-        onChangeText={handleChange('password')}
-        onBlur={handleBlur('password')}
-        value={values.password}
-        onSubmitEditing={() => handleSubmit()}
+        onChange={passwordField.onChange}
+        onBlur={passwordField.onBlur}
+        ref={(el: any) => {
+          passwordRef.current = el;
+          passwordField.ref(el);
+        }}
+        onSubmitEditing={() => handleSubmit(handleLogin)()}
       />
-      {touched.password && errors.password && (
-        <ErrorMessage>{errors.password}</ErrorMessage>
+      {touchedFields.password && errors.password && (
+        <ErrorMessage>{errors.password.message}</ErrorMessage>
       )}
 
       <ForgotPassword>
@@ -136,7 +133,7 @@ function Login() {
       </ForgotPassword>
 
       <Button
-        onPress={handleSubmit}
+        onPress={handleSubmit(handleLogin)}
         loading={isSubmitting}
         disabled={!isValid || isSubmitting}
       >

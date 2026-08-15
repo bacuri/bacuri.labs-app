@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import { ScrollView, View } from 'react-native';
-import { useFormik } from 'formik';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
-import * as yup from 'yup';
+import { z } from 'zod';
 import { Picker } from '@react-native-picker/picker';
 import { useTranslation } from 'react-i18next';
-import type { FormikHelpers } from 'formik';
 import {
   Container,
   ErrorMessage,
@@ -33,23 +33,39 @@ function AddDependent() {
   const navigation = useNavigation<NavigationProp>();
   const { t } = useTranslation();
 
-  const signUpSchema = yup.object({
-    name: yup.string().required(t('validation.nameRequired')),
-    birth_date: yup.string().required(t('validation.birthDateRequired')),
-    cpf: yup
+  const signUpSchema = z.object({
+    name: z.string().min(1, t('validation.nameRequired')),
+    birth_date: z.string().min(1, t('validation.birthDateRequired')),
+    cpf: z
       .string()
-      .min(11, t('validation.cpfMin'))
-      .required(t('validation.cpfRequired')),
-    gender: yup.string().required(t('validation.genderRequired')),
+      .min(1, t('validation.cpfRequired'))
+      .min(11, t('validation.cpfMin')),
+    gender: z.string().min(1, t('validation.genderRequired')),
+    general: z.string(),
   });
 
   const birthDateRef = useRef<any>(null);
   const cpfRef = useRef<any>(null);
 
-  const handleSignUp = async (
-    values: AddDependentValues,
-    actions: FormikHelpers<AddDependentValues>,
-  ) => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    setError,
+    formState: { errors, isSubmitting, touchedFields },
+  } = useForm<AddDependentValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: '',
+      birth_date: '',
+      cpf: '',
+      gender: 'MALE',
+      general: '',
+    },
+    mode: 'onChange',
+  });
+
+  const handleSignUp = async (values: AddDependentValues) => {
     try {
       const completeName = values.name.split(' ');
 
@@ -75,31 +91,11 @@ function AddDependent() {
 
       navigation.goBack();
     } catch (error: any) {
-      actions.setFieldError('general', error.message);
+      setError('general', { message: error.message });
     }
-    actions.setSubmitting(false);
   };
 
-  const {
-    handleSubmit,
-    handleChange,
-    handleBlur,
-    setFieldValue,
-    touched,
-    errors,
-    values,
-    isSubmitting,
-  } = useFormik<AddDependentValues>({
-    initialValues: {
-      name: '',
-      birth_date: '',
-      cpf: '',
-      gender: 'MALE',
-      general: '',
-    },
-    onSubmit: handleSignUp,
-    validationSchema: signUpSchema,
-  });
+  const nameField = register('name');
 
   return (
     <ScrollView
@@ -113,78 +109,101 @@ function AddDependent() {
           <Label>{t('addDependent.nameLabel')}</Label>
           <Input
             placeholder={t('addDependent.namePlaceholder')}
-            onChangeText={handleChange('name')}
-            value={values.name}
-            onBlur={handleBlur('name')}
+            onChange={nameField.onChange}
+            onBlur={nameField.onBlur}
+            ref={nameField.ref}
             autoCapitalize="words"
             returnKeyType="next"
             onSubmitEditing={() => birthDateRef.current?.getElement().focus()}
             blurOnSubmit={false}
           />
-          {touched.name && errors.name && (
-            <ErrorMessage>{errors.name}</ErrorMessage>
+          {touchedFields.name && errors.name && (
+            <ErrorMessage>{errors.name.message}</ErrorMessage>
           )}
 
           <Label>{t('addDependent.birthDateLabel')}</Label>
-          <Input
-            masked
-            type="datetime"
-            options={{
-              format: 'DD/MM/YYYY',
-            }}
-            textContentType="birthdate"
-            maxLength={10}
-            placeholder={t('addDependent.birthDatePlaceholder')}
-            onChangeText={handleChange('birth_date')}
-            value={values.birth_date}
-            onBlur={handleBlur('birth_date')}
-            ref={birthDateRef}
-            returnKeyType="next"
-            onSubmitEditing={() => cpfRef.current?.getElement().focus()}
-            blurOnSubmit={false}
+          <Controller
+            control={control}
+            name="birth_date"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                masked
+                type="datetime"
+                options={{
+                  format: 'DD/MM/YYYY',
+                }}
+                textContentType="birthdate"
+                maxLength={10}
+                placeholder={t('addDependent.birthDatePlaceholder')}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                ref={birthDateRef}
+                returnKeyType="next"
+                onSubmitEditing={() => cpfRef.current?.getElement().focus()}
+                blurOnSubmit={false}
+              />
+            )}
           />
-          {touched.birth_date && errors.birth_date && (
-            <ErrorMessage>{errors.birth_date}</ErrorMessage>
+          {touchedFields.birth_date && errors.birth_date && (
+            <ErrorMessage>{errors.birth_date.message}</ErrorMessage>
           )}
 
           <Label>{t('addDependent.cpfLabel')}</Label>
-          <Input
-            masked
-            type="cpf"
-            maxLength={14}
-            placeholder={t('addDependent.cpfPlaceholder')}
-            onChangeText={handleChange('cpf')}
-            value={values.cpf}
-            onBlur={handleBlur('cpf')}
-            ref={cpfRef}
+          <Controller
+            control={control}
+            name="cpf"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                masked
+                type="cpf"
+                maxLength={14}
+                placeholder={t('addDependent.cpfPlaceholder')}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                ref={cpfRef}
+              />
+            )}
           />
-          {touched.cpf && errors.cpf && (
-            <ErrorMessage>{errors.cpf}</ErrorMessage>
+          {touchedFields.cpf && errors.cpf && (
+            <ErrorMessage>{errors.cpf.message}</ErrorMessage>
           )}
 
           <Label>{t('addDependent.genderLabel')}</Label>
-          <Select
-            mode="dropdown"
-            selectedValue={values.gender}
-            onValueChange={(itemValue) => setFieldValue('gender', itemValue)}
-            onBlur={handleBlur('gender')}
-            dropdownIconColor="#FFFFFF"
-          >
-            <Picker.Item label={t('addDependent.genderMale')} value="MALE" />
-            <Picker.Item
-              label={t('addDependent.genderFemale')}
-              value="FEMALE"
-            />
-          </Select>
-          {touched.gender && errors.gender && (
-            <ErrorMessage>{errors.gender}</ErrorMessage>
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Select
+                mode="dropdown"
+                selectedValue={value}
+                onValueChange={onChange}
+                onBlur={onBlur}
+                dropdownIconColor="#FFFFFF"
+              >
+                <Picker.Item
+                  label={t('addDependent.genderMale')}
+                  value="MALE"
+                />
+                <Picker.Item
+                  label={t('addDependent.genderFemale')}
+                  value="FEMALE"
+                />
+              </Select>
+            )}
+          />
+          {touchedFields.gender && errors.gender && (
+            <ErrorMessage>{errors.gender.message}</ErrorMessage>
           )}
 
-          {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
+          {errors.general && (
+            <ErrorMessage>{errors.general.message}</ErrorMessage>
+          )}
         </View>
 
         <View>
-          <Button onPress={handleSubmit} loading={isSubmitting}>
+          <Button onPress={handleSubmit(handleSignUp)} loading={isSubmitting}>
             {t('addDependent.createDependent')}
           </Button>
 
