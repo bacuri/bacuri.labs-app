@@ -1,6 +1,12 @@
 import * as Updates from 'expo-updates';
 
-const ENV = {
+interface EnvVars {
+  apiUrl: string;
+  clientId: string;
+  secret: string;
+}
+
+const ENV: Record<'dev' | 'staging' | 'prod', EnvVars> = {
   dev: {
     apiUrl: '',
     clientId: '',
@@ -18,7 +24,7 @@ const ENV = {
   },
 };
 
-const getEnvVars = () => {
+const getEnvVars = (): EnvVars => {
   if (__DEV__) {
     return ENV.dev;
   }
@@ -28,7 +34,7 @@ const getEnvVars = () => {
   if (channel === 'staging') return ENV.staging;
   if (channel === 'prod') return ENV.prod;
 
-  return ENV.default;
+  return ENV.dev;
 };
 
 export default getEnvVars;

@@ -4,7 +4,7 @@ import httpClient from '../../lib/httpClient'
 
 const { clientId, secret } = getEnvVars()
 
-export async function login(email: string, password: string) {
+export async function login(email: string, password: string): Promise<string> {
   const data = {
     grant_type: 'password',
     username: email,
@@ -22,7 +22,7 @@ export async function login(email: string, password: string) {
   return response.data.access_token
 }
 
-export async function register(userData: any) {
+export async function register(userData: any): Promise<unknown> {
   const response = await httpClient.post('/register', userData)
   return response.data
 }
