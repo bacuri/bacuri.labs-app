@@ -103,7 +103,10 @@
           {
             "devDependencies": true
           }
-        ]
+        ],
+        "@typescript-eslint/no-require-imports": "off",
+        "global-require": "off",
+        "react/function-component-definition": "off"
       }
     }
   ]

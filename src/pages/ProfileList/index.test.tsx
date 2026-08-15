@@ -8,8 +8,10 @@ import { renderWithSWR } from '../../testUtils';
 import { getUser } from '../../services/user/user.service';
 import type { UserResponse } from '../../services/user/user.service';
 
+const mockNavigate = jest.fn();
+
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({ navigate: jest.fn() }),
+  useNavigation: () => ({ navigate: mockNavigate }),
   useIsFocused: () => true,
 }));
 
@@ -55,6 +57,7 @@ describe('createRows', () => {
 describe('ProfileList', () => {
   beforeEach(() => {
     mockedGetUser.mockReset();
+    mockNavigate.mockReset();
   });
 
   it('shows a loading indicator while fetching', async () => {
@@ -105,5 +108,42 @@ describe('ProfileList', () => {
     fireEvent.press(getByText('profileList.reloadButton'));
 
     await waitFor(() => expect(getByText('John Doe')).toBeTruthy());
+  });
+
+  it('navigates to the dependent page when a profile card is pressed', async () => {
+    mockedGetUser.mockResolvedValue({
+      content: {
+        dependentProfiles: [{ id: 1, firstName: 'John', lastName: 'Doe' }],
+      },
+    });
+
+    const { getByText } = renderWithSWR(<ProfileList />);
+
+    await waitFor(() => expect(getByText('John Doe')).toBeTruthy());
+
+    fireEvent.press(getByText('John Doe'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('Dependent', {
+      id: 1,
+      name: 'John Doe',
+    });
+  });
+
+  it('navigates to the add dependent page when the add card is pressed', async () => {
+    mockedGetUser.mockResolvedValue({
+      content: {
+        dependentProfiles: [],
+      },
+    });
+
+    const { getByText } = renderWithSWR(<ProfileList />);
+
+    await waitFor(() =>
+      expect(getByText('profileList.selectProfile')).toBeTruthy(),
+    );
+
+    fireEvent.press(getByText('FontAwesome5'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('AddDependent');
   });
 });

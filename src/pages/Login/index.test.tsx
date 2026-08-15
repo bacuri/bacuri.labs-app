@@ -83,6 +83,33 @@ describe('Login', () => {
     );
   });
 
+  it('submits the credentials when the password field is submitted', async () => {
+    mockLogin.mockResolvedValue(undefined);
+
+    const { getByPlaceholderText } = render(<Login />);
+
+    fireEvent.changeText(
+      getByPlaceholderText('login.emailPlaceholder'),
+      'user@example.com',
+    );
+    const passwordInput = getByPlaceholderText('login.passwordPlaceholder');
+    fireEvent.changeText(passwordInput, 'secret123');
+
+    fireEvent(passwordInput, 'submitEditing');
+
+    await waitFor(() =>
+      expect(mockLogin).toHaveBeenCalledWith('user@example.com', 'secret123'),
+    );
+  });
+
+  it('navigates to the sign up page when the create account link is pressed', () => {
+    const { getByText } = render(<Login />);
+
+    fireEvent.press(getByText('login.createAccountNow'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('SignUp');
+  });
+
   it('shows the invalid credentials error when login rejects with invalid_grant', async () => {
     mockLogin.mockRejectedValue({
       response: { data: { error: 'invalid_grant' } },
