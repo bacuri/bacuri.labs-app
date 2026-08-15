@@ -26,7 +26,7 @@ function Dependent() {
   const { id, name } = route.params;
 
   useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: name } as never);
+    navigation.setOptions({ headerTitle: name });
   }, [navigation, route, name]);
 
   return (

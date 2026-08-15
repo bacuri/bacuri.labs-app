@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createNativeStackNavigator,
+  type NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
 import type { RootStackParamList } from '../@types/navigation';
@@ -11,9 +14,9 @@ import Campaigns from '../pages/Campaigns';
 import CampaignDetail from '../pages/CampaignDetail';
 import CampaignMap from '../pages/CampaignMap';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const screenOptions = {
+const screenOptions: NativeStackNavigationOptions = {
   headerStyle: {
     backgroundColor: '#22292F',
   },

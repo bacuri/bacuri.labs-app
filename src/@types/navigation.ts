@@ -1,4 +1,4 @@
-import type { StackNavigationProp } from '@react-navigation/stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
 
 import type { Campaign, CampaignPlace } from './models';
@@ -16,7 +16,7 @@ export type RootStackParamList = {
   CampaignMap: { places: CampaignPlace[] };
 };
 
-export type NavigationProp = StackNavigationProp<RootStackParamList>;
+export type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export type RouteProps<T extends keyof RootStackParamList> = RouteProp<
   RootStackParamList,
