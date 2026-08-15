@@ -17,7 +17,7 @@ const initI18n = async () => {
     savedLanguage = Localization.getLocales()[0]?.languageCode ?? 'en-US';
   }
 
-  i18n.use(initReactI18next).init({
+  await i18n.use(initReactI18next).init({
     resources,
     lng: savedLanguage,
     fallbackLng: 'en-US',
@@ -27,6 +27,6 @@ const initI18n = async () => {
   });
 };
 
-initI18n();
+export const i18nReady = initI18n();
 
 export default i18n;

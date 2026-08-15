@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,7 +8,7 @@ import { colors } from './src/styles';
 import { AuthProvider } from './src/contexts/auth';
 import Routes from './src/routes';
 import { setupAxiosMocks } from './src/mocks/axiosMock';
-import './src/i18n';
+import { i18nReady } from './src/i18n';
 import httpClient from './src/lib/httpClient';
 
 const MyTheme = {
@@ -32,14 +32,23 @@ export default function App() {
     // eslint-disable-next-line camelcase
     Roboto_400Regular,
   });
+  const [i18nLoaded, setI18nLoaded] = useState(false);
 
   useEffect(() => {
-    if (loaded || error) {
+    i18nReady.then(() => setI18nLoaded(true));
+  }, []);
+
+  useEffect(() => {
+    if ((loaded || error) && i18nLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, error]);
+  }, [loaded, error, i18nLoaded]);
 
   if (!loaded && !error) {
+    return null;
+  }
+
+  if (!i18nLoaded) {
     return null;
   }
 
