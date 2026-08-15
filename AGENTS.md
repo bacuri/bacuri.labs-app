@@ -10,7 +10,7 @@ map. Uses a backend API via Axios.
 
 ## Tech Stack
 
-- React Native 0.81 + Expo 54
+- React Native 0.81 + Expo 54, TypeScript (strict)
 - React Navigation (stack) with signed/sign-out stacks
 - styled-components for styling
 - SWR for data fetching
@@ -23,31 +23,39 @@ map. Uses a backend API via Axios.
 
 - `yarn start` — start Expo dev server
 - `yarn lint` — run ESLint (`eslint . --ext .js,.jsx,.ts,.tsx`)
+- `npx tsc --noEmit` — typecheck (tsconfig exists, but no script is defined)
 - `yarn ios` / `yarn android` — run on device/simulator
 - `yarn web` — start web build
 
-There is no test suite and no typecheck step (plain JavaScript).
+There is no test suite. TypeScript is compiled through the bundler; use
+`npx tsc --noEmit` to typecheck.
 
 ## Conventions
 
-- Plain JavaScript (no TypeScript). New files must be `.js`.
-- Pages live in `src/pages/<Name>/index.js` + `styles.js` (styled-components).
-- Components live in `src/components/<Name>/index.js` + `styles.js`.
+- TypeScript throughout. New files must be `.ts` (non-component) or `.tsx`
+  (components/pages).
+- Pages live in `src/pages/<Name>/index.tsx` + `styles.ts` (styled-components).
+- Components live in `src/components/<Name>/index.tsx` + `styles.ts`.
+- Shared types live in `src/@types/` (`models.ts`, `navigation.ts`,
+  `declarations.d.ts`). Navigation params are typed via `RootStackParamList` in
+  `src/@types/navigation.ts`; use `RouteProps`/`NavigationProp` helpers.
+- Use `import type` for type-only imports (`verbatimModuleSyntax` is enabled).
 - Navigation routes are defined in `src/routes`.
-- API calls go through `src/services/*` (thin functions) using the shared
-  `httpClient` from `src/lib/httpClient.js`; use SWR hooks to consume them.
+- API calls go through `src/services/<domain>/<name>.service.ts` (thin
+  functions) using the shared `httpClient` from `src/lib/httpClient.ts`; use
+  SWR hooks to consume them.
 - All user-facing strings must use i18n keys via `useTranslation()` and live in
   `src/i18n/locales/{en-US,pt-BR}/translation.json`. Keep both locales in sync.
 - Forms use Formik + Yup, with validation messages from i18n keys.
-- Authentication state lives in `src/contexts/auth.js`; the Axios instance keeps
-  the Bearer token in its default headers.
+- Authentication state lives in `src/contexts/auth.tsx`; the Axios instance
+  keeps the Bearer token in its default headers.
 - Imports follow the pattern: react, third-party libs, local modules, then assets.
 - Named imports for pages/views (`function Login()`), default export at end.
 
 ## Environment
 
-- Copy `environment.example.js` to `environment.js` and set `apiUrl`.
-- `environment.js` is gitignored.
+- Copy `environment.example.ts` to `environment.ts` and set `apiUrl`.
+- `environment.ts` is gitignored.
 
 ## Git
 
