@@ -10,6 +10,37 @@ jest.mock('react-i18next', () => {
   };
 });
 
+jest.mock('@expo/vector-icons', () => {
+  const React = require('react');
+  const { Text } = require('react-native');
+
+  const iconNames = [
+    'FontAwesome',
+    'FontAwesome5',
+    'MaterialIcons',
+    'MaterialCommunityIcons',
+    'Foundation',
+    'Ionicons',
+    'Feather',
+    'Entypo',
+    'AntDesign',
+    'SimpleLineIcons',
+  ];
+
+  const icons: Record<
+    string,
+    React.ComponentType<Record<string, unknown>>
+  > = {};
+
+  iconNames.forEach((name) => {
+    icons[name] = function IconMock(props: Record<string, unknown>) {
+      return React.createElement(Text, props, name);
+    };
+  });
+
+  return icons;
+});
+
 jest.mock('react-native-gesture-handler', () => {
   const React = require('react');
   const { TouchableOpacity } = require('react-native');

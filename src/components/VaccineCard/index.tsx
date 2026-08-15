@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import {
   FontAwesome5,
   MaterialIcons,
@@ -20,6 +21,53 @@ import {
   Details,
   Ball,
 } from './styles';
+
+export function getNextVaccines(vaccine: Vaccine | null): {
+  numberVaccines: number;
+  numberAppliedVaccines: number;
+} {
+  let currentVaccine = vaccine;
+
+  let numberVaccines = 0;
+  let numberAppliedVaccines = 0;
+
+  while (currentVaccine) {
+    numberVaccines += 1;
+    numberAppliedVaccines += currentVaccine.applied ? 1 : 0;
+
+    currentVaccine = currentVaccine.nextVaccine;
+  }
+
+  return { numberVaccines, numberAppliedVaccines };
+}
+
+export function formatAgeRange(
+  initialRangeValue: number,
+  finalRangeValue: number,
+  t: TFunction,
+): string {
+  if (initialRangeValue === 0) {
+    return t('vaccineCard.atBirth');
+  }
+
+  const isYears = initialRangeValue > 15;
+  const initialValue = isYears ? initialRangeValue / 12 : initialRangeValue;
+  const finalValue = isYears ? finalRangeValue / 12 : finalRangeValue;
+  const translationKey = isYears
+    ? 'vaccineCard.ageYear'
+    : 'vaccineCard.ageMonth';
+
+  const initialText = t(translationKey, { count: initialValue });
+  const finalText = t(translationKey, { count: finalValue });
+
+  if (initialValue !== finalValue) {
+    return t('vaccineCard.ageRange', {
+      initial: initialText,
+      final: finalText,
+    });
+  }
+  return initialText;
+}
 
 interface VaccineCardProps {
   item: VaccineTimelineItem;
@@ -57,53 +105,10 @@ function VaccineCard({ item }: VaccineCardProps) {
   };
 
   useEffect(() => {
-    const getNextVaccines = (vaccine: Vaccine | null) => {
-      let currentVaccine = vaccine;
-
-      let numberVaccines = 0;
-      let numberAppliedVaccines = 0;
-
-      while (currentVaccine) {
-        numberVaccines += 1;
-        numberAppliedVaccines += currentVaccine.applied ? 1 : 0;
-
-        currentVaccine = currentVaccine.nextVaccine;
-      }
-
-      return { numberVaccines, numberAppliedVaccines };
-    };
-
     setNumberDoses(getNextVaccines(nextVaccine));
   }, [nextVaccine]);
 
-  const formatAgeRange = (
-    initialRangeValue: number,
-    finalRangeValue: number,
-  ) => {
-    if (initialRangeValue === 0) {
-      return t('vaccineCard.atBirth');
-    }
-
-    const isYears = initialRangeValue > 15;
-    const initialValue = isYears ? initialRangeValue / 12 : initialRangeValue;
-    const finalValue = isYears ? finalRangeValue / 12 : finalRangeValue;
-    const translationKey = isYears
-      ? 'vaccineCard.ageYear'
-      : 'vaccineCard.ageMonth';
-
-    const initialText = t(translationKey, { count: initialValue });
-    const finalText = t(translationKey, { count: finalValue });
-
-    if (initialValue !== finalValue) {
-      return t('vaccineCard.ageRange', {
-        initial: initialText,
-        final: finalText,
-      });
-    }
-    return initialText;
-  };
-
-  const applicationRange = formatAgeRange(initialRange, finalRange);
+  const applicationRange = formatAgeRange(initialRange, finalRange, t);
 
   return (
     <Card>

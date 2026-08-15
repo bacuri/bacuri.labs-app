@@ -91,7 +91,8 @@
         "**/*.test.tsx",
         "**/*.spec.ts",
         "**/*.spec.tsx",
-        "**/__tests__/**"
+        "**/__tests__/**",
+        "src/testUtils.tsx"
       ],
       "env": {
         "jest": true
