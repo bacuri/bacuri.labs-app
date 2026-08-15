@@ -15,7 +15,7 @@ map. Uses a backend API via Axios.
 - styled-components for styling
 - SWR for data fetching
 - i18next (pt-BR + en-US)
-- Formik + Yup for forms
+- React Hook Form + Zod (zodResolver) for forms
 - Axios for HTTP (single shared instance)
 - State managed via React Context
 
@@ -41,9 +41,10 @@ map. Uses a backend API via Axios.
   (`environment$` → `jest/environmentMock.ts`).
 - Service/page tests should mock the service module (or `src/lib/httpClient`),
   not SWR, so SWR loading/error paths are exercised.
-- Form pages (Formik + Yup) will be rewritten to Zod in a separate branch;
-  their tests come after that migration. Do not write Formik/Yup-coupled tests
-  for `Login`, `SignUp`, `AddDependent` yet.
+- Form pages use `react-hook-form` `Controller` + `zodResolver`; their tests
+  render the page and drive the inputs with RNTL `fireEvent` (changeText/blur),
+  asserting validation messages (i18n keys) and that submit calls the mocked
+  service/context functions.
 - Run `npx tsc --noEmit` and `yarn lint` alongside `yarn test`; test files must
   satisfy `strict` + `noUncheckedIndexedAccess`.
 
@@ -63,7 +64,7 @@ map. Uses a backend API via Axios.
   SWR hooks to consume them.
 - All user-facing strings must use i18n keys via `useTranslation()` and live in
   `src/i18n/locales/{en-US,pt-BR}/translation.json`. Keep both locales in sync.
-- Forms use Formik + Yup, with validation messages from i18n keys.
+- Forms use React Hook Form + Zod, with validation messages from i18n keys.
 - Authentication state lives in `src/contexts/auth.tsx`; the Axios instance
   keeps the Bearer token in its default headers.
 - Imports follow the pattern: react, third-party libs, local modules, then assets.
