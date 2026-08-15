@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
-import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto'; // eslint-disable-line camelcase
+import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
 import { SWRConfig } from 'swr';
 import { colors } from './src/styles';
 import { AuthProvider } from './src/contexts/auth';
@@ -29,7 +29,6 @@ const fetcher = (url: string) => httpClient.get(url).then((res) => res.data);
 
 export default function App() {
   const [loaded, error] = useFonts({
-    // eslint-disable-next-line camelcase
     Roboto_400Regular,
   });
   const [i18nLoaded, setI18nLoaded] = useState(false);

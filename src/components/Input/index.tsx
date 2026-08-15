@@ -13,7 +13,6 @@ interface InputProps extends TextInputProps {
 function Input({ masked, error, ...props }: InputProps, ref: any) {
   const Component = (!masked ? InputNormal : InputMask) as ComponentType<any>;
 
-  /* eslint-disable-next-line react/jsx-props-no-spreading */
   return <Component error={error} ref={ref} {...props} />;
 }
 

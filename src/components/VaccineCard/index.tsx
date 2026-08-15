@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
 import {
@@ -76,10 +76,6 @@ interface VaccineCardProps {
 function VaccineCard({ item }: VaccineCardProps) {
   const { t } = useTranslation();
   const [collapse, setCollapse] = useState(false);
-  const [numberDoses, setNumberDoses] = useState<{
-    numberVaccines: number;
-    numberAppliedVaccines: number;
-  }>({ numberVaccines: 0, numberAppliedVaccines: 0 });
 
   const {
     name,
@@ -93,6 +89,8 @@ function VaccineCard({ item }: VaccineCardProps) {
     nextVaccine,
   } = item.vaccine;
 
+  const numberDoses = getNextVaccines(nextVaccine);
+
   const dosageLabel: Record<string, string> = {
     DOSAGE_UNIQUE: t('vaccineCard.dosageUnique'),
     DOSAGE_1: t('vaccineCard.dosage1'),
@@ -103,10 +101,6 @@ function VaccineCard({ item }: VaccineCardProps) {
     DOSAGE_2_REINFORCEMENT: t('vaccineCard.dosage2Reinforcement'),
     DOSAGE_DECADE: t('vaccineCard.dosageDecade'),
   };
-
-  useEffect(() => {
-    setNumberDoses(getNextVaccines(nextVaccine));
-  }, [nextVaccine]);
 
   const applicationRange = formatAgeRange(initialRange, finalRange, t);
 
@@ -154,7 +148,6 @@ function VaccineCard({ item }: VaccineCardProps) {
         <Details>
           {[...Array(numberDoses.numberVaccines)].map((e, index) => (
             <Ball
-              // eslint-disable-next-line react/no-array-index-key
               key={String(index)}
               color={numberDoses.numberAppliedVaccines > index + 1}
             />

@@ -26,7 +26,7 @@ function Campaigns() {
     () => getMyCampaigns(id),
     {
       onError: (err) => {
-        console.log(err); // eslint-disable-line no-console
+        console.log(err);
       },
     },
   );
