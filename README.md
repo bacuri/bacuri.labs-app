@@ -66,9 +66,7 @@ cd bacuri.labs-app
 2. Install dependencies
 
 ```bash
-npm install
-# or
-yarn install
+pnpm install
 ```
 
 3. Run the project

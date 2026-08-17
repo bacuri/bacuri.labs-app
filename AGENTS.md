@@ -21,12 +21,12 @@ map. Uses a backend API via Axios.
 
 ## Commands
 
-- `yarn start` — start Expo dev server
-- `yarn lint` — run ESLint (`eslint . --ext .js,.jsx,.ts,.tsx`)
+- `pnpm start` — start Expo dev server
+- `pnpm lint` — run ESLint (`eslint . --ext .js,.jsx,.ts,.tsx`)
 - `npx tsc --noEmit` — typecheck (tsconfig exists, but no script is defined)
-- `yarn test` / `yarn test:watch` — run Jest (jest-expo preset)
-- `yarn ios` / `yarn android` — run on device/simulator
-- `yarn web` — start web build
+- `pnpm test` / `pnpm test:watch` — run Jest (jest-expo preset)
+- `pnpm ios` / `pnpm android` — run on device/simulator
+- `pnpm web` — start web build
 
 ## Testing
 
@@ -45,7 +45,7 @@ map. Uses a backend API via Axios.
   render the page and drive the inputs with RNTL `fireEvent` (changeText/blur),
   asserting validation messages (i18n keys) and that submit calls the mocked
   service/context functions.
-- Run `npx tsc --noEmit` and `yarn lint` alongside `yarn test`; test files must
+- Run `npx tsc --noEmit` and `pnpm lint` alongside `pnpm test`; test files must
   satisfy `strict` + `noUncheckedIndexedAccess`.
 
 ## Conventions
