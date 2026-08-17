@@ -69,3 +69,26 @@ jest.mock('react-native-gesture-handler', () => {
     State: {},
   };
 });
+
+jest.mock('react-native-maps', () => {
+  const React = require('react');
+  const { Text, View } = require('react-native');
+
+  const MapView = (props: Record<string, unknown>) =>
+    React.createElement(View, props);
+
+  const Marker = ({ title, children, ...props }: Record<string, unknown>) =>
+    React.createElement(Text, props, title ?? children);
+
+  return {
+    __esModule: true,
+    default: MapView,
+    Marker,
+  };
+});
+
+jest.mock('expo-location', () => ({
+  __esModule: true,
+  requestForegroundPermissionsAsync: jest.fn(),
+  getCurrentPositionAsync: jest.fn(),
+}));

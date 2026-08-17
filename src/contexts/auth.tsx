@@ -49,6 +49,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     setToken(null);
 
+    delete httpClient.defaults.headers.Authorization;
+
     await AsyncStorage.removeItem('@BacuriLabs:token');
   }, []);
 

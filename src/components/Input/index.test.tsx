@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { TextInput } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 

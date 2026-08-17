@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { ActivityIndicator } from 'react-native';
 import { act, waitFor } from '@testing-library/react-native';
 
