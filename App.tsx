@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SWRConfig } from 'swr';
 import { colors } from './src/styles';
 import { AuthProvider } from './src/contexts/auth';
@@ -52,13 +53,15 @@ export default function App() {
   }
 
   return (
-    <SWRConfig value={{ fetcher }}>
-      <NavigationContainer theme={MyTheme}>
-        <StatusBar />
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
-      </NavigationContainer>
-    </SWRConfig>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SWRConfig value={{ fetcher }}>
+        <NavigationContainer theme={MyTheme}>
+          <StatusBar />
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
+        </NavigationContainer>
+      </SWRConfig>
+    </GestureHandlerRootView>
   );
 }
