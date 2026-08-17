@@ -112,6 +112,7 @@ describe('Login', () => {
 
   it('shows the invalid credentials error when login rejects with invalid_grant', async () => {
     mockLogin.mockRejectedValue({
+      isAxiosError: true,
       response: { data: { error: 'invalid_grant' } },
     });
 

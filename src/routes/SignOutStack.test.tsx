@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native';
 
 import SignOutStack from './SignOutStack';
 
-jest.mock('@react-navigation/stack', () => {
+jest.mock('@react-navigation/native-stack', () => {
   const React = require('react');
   const { View } = require('react-native');
 
@@ -14,7 +14,7 @@ jest.mock('@react-navigation/stack', () => {
 
   return {
     __esModule: true,
-    createStackNavigator: () => ({ Navigator, Screen }),
+    createNativeStackNavigator: () => ({ Navigator, Screen }),
   };
 });
 

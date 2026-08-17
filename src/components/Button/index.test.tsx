@@ -11,7 +11,6 @@ describe('Button', () => {
   });
 
   it('shows a loading indicator instead of children while loading', () => {
-    // eslint-disable-next-line camelcase
     const { queryByText, UNSAFE_getByType } = render(
       <Button onPress={() => {}} loading>
         Submit
@@ -19,7 +18,7 @@ describe('Button', () => {
     );
 
     expect(queryByText('Submit')).toBeNull();
-    // eslint-disable-next-line camelcase
+
     expect(UNSAFE_getByType(ActivityIndicator)).toBeTruthy();
   });
 

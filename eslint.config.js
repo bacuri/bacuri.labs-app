@@ -67,7 +67,7 @@ module.exports = [
     },
   },
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['**/*.{js,jsx}', '**/*.test.{ts,tsx}', 'jest/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-var-requires': 'off',
